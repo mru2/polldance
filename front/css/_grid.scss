@@ -1,0 +1,88 @@
+$height: 72px;
+$padding: 15px;
+$inner-height: 42px;
+
+
+/* Global container */
+.pd-main{
+  width: 100%;
+}
+
+
+/* Header, and rest of the content */
+.pd-item.pd-header{
+  position: fixed;
+  border-bottom: none;
+  top: 0px;
+  z-index: 3;
+}
+
+.pd-has-header{
+  margin-top: $height;
+}
+
+
+/* Main item element */
+.pd-item{
+  width: 100%;
+  height: $height;
+  box-sizing: border-box;
+  position: relative; /* Items inside */
+}
+
+.pd-item-content{
+  padding: $padding;
+}
+
+
+/* Internal grid */
+.pd-left{
+  margin-right: $height;
+}
+
+.pd-right{
+  width: $height;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+
+.pd-icon{
+  display: block;
+  width: $inner-height;
+  height: $inner-height;
+}
+
+
+/* Tracks */
+.pd-track{
+  .pd-track-title{
+    font-weight: 700;
+    font-size: 14px;
+    height: $inner-height / 2;
+    line-height: $inner-height / 2;
+    display: block;
+  }
+
+  .pd-track-artist{
+    font-weight: 600;
+    font-style: italic;
+    font-size: 12px;
+    height: $inner-height / 2;
+    line-height: $inner-height / 2;
+    display: block;
+  }
+
+
+  // Voting
+  .pd-icon{
+    font-weight: 300;
+    text-align: center;
+    line-height: $inner-height;
+    display: block;
+    width: $inner-height;
+    height: $inner-height;
+    font-size: $inner-height * 0.6;
+    color: inherit;
+  }  
+}

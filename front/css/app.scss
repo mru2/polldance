@@ -1,0 +1,111 @@
+
+@import "grid";
+@import "colours";
+@import "fonts";
+
+// Title
+.pd-header{
+  background-color: $darkback;
+  color: $white;
+}
+
+.pd-title{
+  font-size: 24px;
+  line-height: $inner-height;
+}
+
+.pd-right{
+  background: rgba(0,0,0,0.02);
+  overflow: hidden;
+}
+
+
+// Scoring and colors
+@mixin striped($back){
+  background: lighten($back, 1);
+  &:nth-child(odd) { 
+    background: darken($back, 1);
+  }
+}
+
+.score{
+  display: block;
+}
+
+.score-border{
+  // display: none;  
+  // border: 1px solid;
+  // border-radius: 100%;
+  // width: $inner-height - 6;
+  // height: $inner-height - 6;
+  // display: block;
+  // position: absolute;
+  // top: $padding;
+  // right: $padding;
+
+}
+
+
+.pd-track{
+  @include striped($white);
+  color: $darkgray;
+  overflow: hidden;
+  
+  .score-border{
+    border-color: $lightgray;
+  }
+
+  .pd-track-title{
+    color: $lightback;
+  }
+
+  .pd-right{
+    // background-color: rgba(0,0,0,0.02);
+  }
+
+  &.voted{
+
+    color: $white;
+    .pd-track-title{
+      color: $white;
+    }
+    .score-border{
+      border-color: $white;
+    }
+
+
+    &.recent{
+      @include striped($darkmain);
+    }
+
+    &.semi-recent{
+      @include striped(mix($darkgray, $darkmain, 30));
+    }
+
+    &.old{
+      @include striped(mix($darkgray, $darkmain, 90));
+    }
+
+  }
+
+
+  &.small{
+    .score{
+      transform: scale(.8);
+    }
+  }
+
+  &.middle{
+    .score{
+      transform: scale(1);      
+    }
+  }
+
+  &.big{
+    .score{
+      transform: scale(1.2);
+    }
+  }
+}
+
+
