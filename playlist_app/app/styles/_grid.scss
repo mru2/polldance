@@ -27,7 +27,7 @@ $inner-height: 42px;
   width: 100%;
   height: $height;
   box-sizing: border-box;
-  position: relative; /* Items inside */
+  position: absolute; // Moved via GPU transforms
 }
 
 .pd-item-content{
@@ -41,7 +41,10 @@ $inner-height: 42px;
 }
 
 .pd-right{
+  // So no layout trashing when updating content
   width: $height;
+  height: $height;
+  overflow: hidden;
   position: absolute;
   right: 0px;
   top: 0px;

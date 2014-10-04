@@ -1,3 +1,5 @@
+"use strict"
+
 // The current playlist, handle the sorting and indices, also the dirty checking
 // !!! Handle deletion
 
@@ -15,7 +17,10 @@ SortedTracks.prototype.load = function(tracks){
 
   var self = this;
 
-  // TODO : Handle when only one track given
+  // Handle when only a track is given
+  if (!_.isArray(tracks)) {
+    tracks = [tracks];
+  }
 
   _.each(tracks, _.bind(this.loadTrack, this));
 
@@ -39,15 +44,13 @@ SortedTracks.prototype.loadTrack = function(track){
 
   // Update?
   else {
-    this.updateTrack(tracksId, track);
+    this.updateTrack(trackId, track);
   }
 
 };
 
 
 SortedTracks.prototype.addTrack = function(track){
-
-  console.log('adding track', track);
 
   var trackId = track.id;
 
@@ -92,6 +95,7 @@ SortedTracks.prototype.sortAll = function(){
   });
 
   // Re-baaaastoooon
+  var i;
   for (i = 0; i < this.tracks.length; i++) {
     if (this.tracks[i].index !== i) {
       this.tracks[i].index = i;

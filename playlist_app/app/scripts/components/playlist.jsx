@@ -9,30 +9,25 @@ var Playlist = React.createClass({
     }
   },
 
-  setTracks: function(tracks) {
-    console.log('setting new tracks', tracks);
-    this.setState({tracks: tracks});
-  },
-
-  onAddTrack: function(track) {
-    console.log('track added : ', track);
-    this.state.tracks.append(track);
-  },
-
-  onUpdateTrack: function(trackAttrs) {
-    console.log('updating track : ', track);
-    var track = this.refs[trackAttrs.id];
-
-    if (!track) {
-      console.log('track not found', track);
-      return;
+  update: function(tracks) {
+    var i;
+    for (i = 0; i < tracks.length; i++) {
+      this.updateTrack(tracks[i]);
     }
-
-    track.update(trackAttrs);
+    this.render();
   },
 
-  onRemoveTrack: function(track) {
-    console.log('track removed : ', track);
+  updateTrack: function(trackAttrs) {
+    var trackComponent = this.refs[trackAttrs.id];
+
+    if (!trackComponent) {
+      var newTracks = this.state.tracks.concat(trackAttrs)
+      this.setState({tracks: newTracks});
+    }
+    else {
+      trackComponent.update(trackAttrs);
+    }   
+
   },
 
   render: function() {

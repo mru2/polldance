@@ -1,3 +1,5 @@
+"use strict";
+
 // The playlist controller
 // Listens to the websockets
 // Handle reconnections, downloads, etc..
@@ -15,12 +17,12 @@
 // }
 
 
-TRACKS = [
+var TRACKS = [
   {
     id: 0,
     artist: "Kyle la Grange",
     title: "Cut Your Teeth (Kygo Remix)",
-    score: 3,
+    score: 1,
     age: 0.5,
     liked: true,
     like_age: 0.3
@@ -30,7 +32,7 @@ TRACKS = [
     id: 1,
     artist: "Daft Punk",
     title: "Da Funk",
-    score: 2,
+    score: 1,
     age: 0.9,
     liked: true,
     like_age: 0.7
@@ -62,6 +64,8 @@ var simulateActivity = function(){
   setTimeout(function(){
 
     _launchCb(_onUpdateCb, TRACKS);
+
+    // return;
 
     setInterval(function(){
       var index = Math.floor(Math.random() * 3);
