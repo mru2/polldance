@@ -3,6 +3,8 @@ $padding: 15px;
 $inner-height: 42px;
 
 
+$easeOutCubic: cubic-bezier(0.190, 1.000, 0.220, 1.000);
+
 /* Global container */
 .pd-main{
   width: 100%;
@@ -36,8 +38,21 @@ $inner-height: 42px;
 
 
 /* Internal grid */
+.pd-slider{
+  z-index: 2;
+  height: $height;
+  width: 100%;
+  position: absolute;
+  left: -100%;
+  top: 0px;
+  color: $white;
+  background: $lightmain;
+  transition: all 200ms $easeOutCubic;
+}
+
 .pd-left{
   margin-right: $height;
+  transition: transform 200ms $easeOutCubic;
 }
 
 .pd-right{
