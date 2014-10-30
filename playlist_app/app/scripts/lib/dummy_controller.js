@@ -34,7 +34,7 @@ var TRACKS = [
     title: "Da Funk",
     score: 1,
     age: 0.9,
-    liked: true,
+    liked: false,
     like_age: 0.7
   },
 
@@ -61,19 +61,14 @@ var _launchCb = function(cb, data){
 // Simulate activity
 var simulateActivity = function(){
   
-  setTimeout(function(){
-
-    _launchCb(_onUpdateCb, TRACKS);
-
-    // return;
-
-    setInterval(function(){
-      var index = Math.floor(Math.random() * 3);
-      TRACKS[index].score += 1;
-      _launchCb(_onUpdateCb, TRACKS[index]);
-    }, 2000);
-
-  }, 1000);
+  setInterval(function(){
+    var index = Math.floor(Math.random() * 3);
+    TRACKS[index].score += 1;
+    TRACKS[index].like_age = Math.random();
+    TRACKS[index].age = Math.random();
+    TRACKS[index].liked = (Math.random() > 0.5);
+    _launchCb(_onUpdateCb, TRACKS[index]);
+  }, 2000);
 
 };
 
@@ -91,9 +86,12 @@ PlaylistController.onUpdate = function(cb){
 
 PlaylistController.start = function(host, port, code){
   console.log('connecting to tracks on host', host, 'with port', port, 'and playlist code', code);
-  simulateActivity(); // Debug
+  _launchCb(_onUpdateCb, TRACKS);
 };
 
+PlaylistController.simulateActivity = function(){
+  simulateActivity();
+};
 
 // ==========================================
 

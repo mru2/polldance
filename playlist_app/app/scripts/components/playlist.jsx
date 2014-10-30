@@ -52,7 +52,7 @@ var Playlist = React.createClass({
 
           <header className="pd-item pd-header">
               <div className="pd-item-content">
-                  <span className="pd-title">poll.dance / 2</span>
+                  <span className="pd-title">poll<em>.dance</em> / 2</span>
               </div>
           </header>
 

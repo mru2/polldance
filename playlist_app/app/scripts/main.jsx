@@ -1,3 +1,6 @@
+// Configuration
+React.initializeTouchEvents(true);
+
 // Initialize the view
 var playlistView = React.renderComponent(
   <Playlist/>,
@@ -16,3 +19,4 @@ PlaylistController.onUpdate(function(tracks){
 
 // Initialize the app
 PlaylistController.start();
+// PlaylistController.simulateActivity();
