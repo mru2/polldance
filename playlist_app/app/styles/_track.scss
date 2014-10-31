@@ -1,0 +1,31 @@
+.track{
+  transition: transform 300ms ease;  
+  color: $darkgray;
+}
+
+.track-title{
+  font-weight: 700;
+  font-size: 14px;
+  height: $inner-height / 2;
+  line-height: $inner-height / 2;
+  display: block;
+  color: $lightback;
+}
+
+.track-artist{
+  font-weight: 600;
+  font-style: italic;
+  font-size: 12px;
+  height: $inner-height / 2;
+  line-height: $inner-height / 2;
+  display: block;
+}
+
+
+.track-active{
+  color: $white;  
+
+  .track-title{
+    color: $white;
+  }
+}

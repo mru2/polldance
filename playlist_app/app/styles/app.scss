@@ -1,76 +1,9 @@
 @import "colours";
-@import "grid";
-@import "fonts";
+@import "item";
 
-// Title
-.pd-header{
-  background-color: $darkback;
-  color: $white;
-}
+@import "typo";
+@import "track";
+@import "track_animations";
 
-.pd-title{
-  font-size: 24px;
-  line-height: $inner-height;
-
-  em{
-    color: lighten($lightmain, 10);
-    font-style: normal;
-  }
-}
-
-.pd-right{
-  overflow: hidden;
-}
-
-.score{
-  display: block;
-}
-
-
-.pd-track{
-  color: $darkgray;
-  overflow: hidden;
- 
-  transition: transform 300ms ease;
-
-  .score-border{
-    border-color: $lightgray;
-  }
-
-  .pd-track-title{
-    color: $lightback;
-  }
-
-  &.voted{
-
-    color: $white;
-    .pd-track-title{
-      color: $white;
-    }
-    .score-border{
-      border-color: $white;
-    }
-
-  }
-
-
-  // &.small{
-  //   .score{
-  //     transform: scale(.8);
-  //   }
-  // }
-
-  // &.middle{
-  //   .score{
-  //     transform: scale(1);      
-  //   }
-  // }
-
-  // &.big{
-  //   .score{
-  //     transform: scale(1.2);
-  //   }
-  // }
-}
-
-
+@import "header";
+@import "layout";

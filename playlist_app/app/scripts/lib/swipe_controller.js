@@ -3,9 +3,10 @@
 
 // TODO : destroy it when the element is unmounted
 
-var SwipeController = function(reactEl){
+var SwipeController = function(reactEl, cbs){
 
   this.reactEl = reactEl;
+  this.cbs = cbs;
 
   console.log('initializing swipe controller on', reactEl);
   var domNode = reactEl.getDOMNode();
@@ -13,41 +14,48 @@ var SwipeController = function(reactEl){
   // Initialize hammer.js
   this.mc = new Hammer(domNode);
 
-  var callback = _.bind(this.onSwipe, this);
+  var callback = _.bind(this.onUpdate, this);
   this.mc.on('pan', callback);
 
   domNode.addEventListener('touchstart', callback);
   domNode.addEventListener('touchend', callback);
 
+  // Store element size
+  this.length = domNode.offsetWidth;
+
+  // Store current state
+  this.direction = 0;
+  this.swiping = false;
+  this.swipeDistance = null;
+
 };
 
-SwipeController.prototype.onSwipe = function(event){
-  var state = {};
+
+SwipeController.prototype.onUpdate = function(event){
 
   if (event.type === 'touchstart') {
-    state.hasSlider = true;
+    this.swiping = true;
+    this.cbs.start();
   }
 
   if (event.type === 'touchend') {
+    this.swiping = false;
 
-    if (this.direction === 4 && this.deltaX > 72) {
-      this.reactEl.setSwiped();
+    if (this.swipeDistance > (this.length / 4)) {
+      this.cbs.success();
       return;
     }
     else {
-      state.hasSlider = false;
-      state.touchDelta = 0;
+      this.cbs.failure();
     }
   }
 
   if (event.type === 'pan') {
-    state.touchDelta = this.deltaX = event.deltaX;
-    console.log(event)
+    this.swipeDistance = event.deltaX;
     this.direction = event.direction;
 
+    this.cbs.move(event.deltaX);
   }
-
-  this.reactEl.setState(state);
 };
 
 

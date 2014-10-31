@@ -1,0 +1,71 @@
+$swiping_duration: 200ms;
+$swiped_duration: 200ms;
+
+$easeInCubic: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+$easeOutCubic: cubic-bezier(0.190, 1.000, 0.220, 1.000);
+
+// Start
+.step-start-anim{
+  .item-slider, .item-left{
+    transition: transform $swiping_duration $easeInCubic;  
+  }
+
+  .track-score{
+    transition: opacity 200ms $easeInCubic;    
+  }
+}
+
+.step-start-done{
+  z-index: 1;
+  box-shadow: 0px 2px 5px 0 rgba(0,0,0,0);
+
+  .item-slider, .item-left{
+    transform: translateX(0);
+  }
+
+  .track-score{
+    opacity: 1;    
+  }
+}
+
+
+// Swiping
+.step-swiping-anim{
+  z-index: 10;
+  transition: box-shadow $swiping_duration linear;
+
+  .item-slider, .item-left{
+    transition: transform $swiping_duration $easeOutCubic;  
+  }
+
+  .track-score{
+    transition: opacity 200ms $easeOutCubic;
+  }
+}
+
+.step-swiping-done{
+  box-shadow: 0px 2px 5px 0 rgba(0,0,0,0.26);
+  z-index: 10;
+
+  .item-slider, .item-left{
+    transform: translateX($height);
+  }
+
+  .track-score{
+    opacity: 0;
+  }
+}
+
+// Swiped
+.step-swiped-anim{
+  .item-slider, .item-left{
+    transition: transform $swiped_duration $easeOutCubic;  
+  }
+}
+
+.step-swiped-done{
+  .item-slider, .item-left{
+    transform: translateX(100%);
+  }
+}
+

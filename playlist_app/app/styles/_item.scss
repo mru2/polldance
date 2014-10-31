@@ -1,0 +1,52 @@
+// Grid dimensions
+$height: 72px;
+$padding: 15px;
+$inner-height: 42px;
+
+
+.item{
+  width: 100%;
+  height: $height;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: absolute; // Moved via GPU transforms
+}
+
+.item-content{
+  padding: $padding;
+}
+
+.item-left{
+  margin-right: $height;
+}
+
+.item-right{
+  width: $height;
+  height: $height;
+  overflow: hidden;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+
+.item-slider{
+  z-index: 2;
+  height: $height;
+  width: 100%;
+  position: absolute;
+  left: -100%;
+  top: 0px;
+  color: $white;
+  background: $lightmain;
+}
+
+.item-icon{
+  font-weight: 300;
+  text-align: center;
+  line-height: $inner-height;
+  display: block;
+  width: $inner-height;
+  height: $inner-height;
+  font-size: $inner-height * 0.6;
+  color: inherit;
+}  

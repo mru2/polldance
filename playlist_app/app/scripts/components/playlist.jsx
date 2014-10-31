@@ -47,20 +47,10 @@ var Playlist = React.createClass({
     });
 
     return (
-
-      <div className="pd-main pd-has-header playlist">
-
-          <header className="pd-item pd-header">
-              <div className="pd-item-content">
-                  <span className="pd-title">poll<em>.dance</em> / 2</span>
-              </div>
-          </header>
-
-          <section>
-            {trackNodes}
-          </section>
-
-      </div>
+      
+      <section>
+        {trackNodes}
+      </section>
 
     );
   }

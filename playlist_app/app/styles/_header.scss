@@ -1,0 +1,21 @@
+.header{
+  background-color: $darkback;
+  color: $white;
+  position: fixed;
+  border-bottom: none;
+  top: 0px;
+  z-index: 3;
+}
+
+.has-header{
+  margin-top: $height;  
+}
+
+.header-title{
+  @extend h1;
+
+  em{
+    color: lighten($lightmain, 10);
+    font-style: normal;
+  }
+}
