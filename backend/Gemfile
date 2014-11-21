@@ -1,0 +1,20 @@
+source 'https://rubygems.org'
+
+# API
+gem 'sinatra'
+gem 'sinatra-contrib'
+
+# DB
+gem 'redis'
+
+# SERVER
+gem 'thin'
+
+
+group :development, :test do
+  gem 'pry'
+end
+
+group :test do
+  gem 'rspec'
+end
