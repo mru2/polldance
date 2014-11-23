@@ -17,6 +17,8 @@ class Playlist
     code = process_code(code)
     REDIS.set playlist_key(code), Time.now
     REDIS.expire playlist_key(code), TTL
+
+    new(code)
   end
 
 
@@ -43,7 +45,7 @@ class Playlist
   # Get all the tracks for the playlist
   def tracks
     track_ids = REDIS.smembers tracks_key
-    track_ids.map!{|track_id| Track.get(self, track_id)}
+    track_ids.map!{|track_id| Track.get(self, track_id)}.sort!
   end
 
 
@@ -53,9 +55,22 @@ class Playlist
   end
 
 
+  # Remove the playlist top track
+  def pop_top_track!
+    top_track = tracks.first
+
+    return nil if !top_track
+    
+    # Remove it
+    REDIS.srem tracks_key, top_track.id
+
+    top_track
+  end
+
+
   # Get a snapshot of the playlist, for a given user
   # JSON serializable, this is the usual response from the API
-  def snapshot(user_id)
+  def snapshot(user_id = nil)
     tracks.map{|t| t.snapshot(user_id)}
   end
 

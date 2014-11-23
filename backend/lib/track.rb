@@ -38,6 +38,16 @@ class Track
   end
 
 
+  # Track comparison : score then reverse age
+  def <=>(other)
+    if score == other.score
+      - (age <=> other.age)
+    else
+      score <=> other.score
+    end
+  end
+
+
   # Add a vote for a user
   def vote(user_id)
     # Store the vote with the current time
