@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 # API
 gem 'sinatra'
 gem 'sinatra-contrib'
+gem 'rack-contrib'
 
 # DB
 gem 'redis'

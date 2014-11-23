@@ -11,6 +11,7 @@ class Playlist
     return nil unless REDIS.exists playlist_key(code)
     new(code)
   end
+  
 
   # Create the playlist / delay its expiration
   def self.create(code)
@@ -51,6 +52,7 @@ class Playlist
 
   # Get a track of the playlist
   def track(track_id)
+    return nil unless REDIS.sismember tracks_key, track_id
     Track.get(self, track_id)
   end
 
@@ -63,6 +65,7 @@ class Playlist
     
     # Remove it
     REDIS.srem tracks_key, top_track.id
+    top_track.clear_scores!
 
     top_track
   end
@@ -71,7 +74,10 @@ class Playlist
   # Get a snapshot of the playlist, for a given user
   # JSON serializable, this is the usual response from the API
   def snapshot(user_id = nil)
-    tracks.map{|t| t.snapshot(user_id)}
+    {
+      code: code,
+      tracks: tracks.map{|t| t.snapshot(user_id)}
+    }    
   end
 
 
@@ -81,7 +87,7 @@ class Playlist
   # Code transformation
   # ===================
   def self.process_code(code)
-    code.downcase.gsub!(/[^a-z0-9]+/, '')
+    code.downcase.gsub(/[^a-z0-9]+/, '')
   end
 
   # ==========

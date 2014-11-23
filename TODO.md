@@ -6,7 +6,8 @@ Front
  * currently playing
  * material design : fat header + list
  * upvote via slide
-
+ * internally : tracks voted at / added at
+ 
  
 Back
 

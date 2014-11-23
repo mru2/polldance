@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    
+    <script>
+      $(function(){
+        var es = new EventSource('/stream/hello');
+        es.onmessage = function(e) { console.log(JSON.parse(e.data)) };
+
+        $('#ping').on('click', function(){
+          console.log('pinging the server');
+          $.post('/api/playlists/hello/tracks/123');
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <h1>Stream test</h1>
+    <button id="ping">Ping</button>
+  </body>
+</html>

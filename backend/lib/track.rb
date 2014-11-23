@@ -6,7 +6,6 @@ class Track
 
   # Get a track in the context of a given playlist
   def self.get(playlist, id)
-    # TODO? Check if actually part of the?    
     new(playlist.code, id)
   end
 
@@ -63,6 +62,7 @@ class Track
     votes.count
   end
 
+
   # Calculate the age (recent votes mean age)
   def age
     score == 0 ? VOTE_TTL : (votes.values.sum.to_f / score)
@@ -82,12 +82,19 @@ class Track
     ]
   end
 
+
   # Get the vote age for a given user, or nil if none
   def user_vote(user_id)
     vote_time = REDIS.zscore votes_key, user_id
     vote_time ? (Time.now.to_f - vote_time) : nil
   end
- 
+
+
+  # Destroy the track's score
+  def clear_scores!
+    REDIS.del votes_key
+  end
+
 
   # Snapshot for a given user. Also includes whether it is liked
   # JSON serializable

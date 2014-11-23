@@ -1,4 +1,6 @@
 require './env.rb'
 require 'api'
+require 'stream'
 
-run Api.new
+run Rack::URLMap.new("/api"    => Api.new, 
+                     "/stream" => Stream.new)
