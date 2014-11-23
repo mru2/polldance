@@ -51,6 +51,7 @@ DEPENDENCIES
   pry
   redis
   rspec
+  rspec-mocks
   sinatra
   sinatra-contrib
   thin

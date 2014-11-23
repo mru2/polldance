@@ -3,6 +3,28 @@ require 'playlist'
 
 describe Playlist do
 
+  before(:all) do
+    Track::VOTE_TTL = 2000
+  end
+
+  let(:playlist){
+    Playlist.new('test-code')
+  }
+
+  let(:track_id){ 'track_id' }
+  let(:track_title){ 'You and Your Folks (Besnine Remix)' }
+  let(:track_artist){ 'Funkadelic' }
+
+  let(:user_id){ 'user_id' }
+  let(:other_user_id){ 'other_user_id' }
+
+  def at_time(t)
+    Time.stub!(:now).and_return( Time.at(t) )
+    yield
+    Time.unstub(:now)
+  end
+
+
   describe '#add_track' do
 
     it 'should add the track' do
@@ -36,46 +58,6 @@ describe Playlist do
 
   end
 
-  describe '#vote' do
-
-    before(:each) do
-      playlist.add_track(
-        title: track_title,
-        artist: track_artist,
-        id: track_id
-      )
-    end
-
-    it 'should count a vote' do
-
-      playlist.vote(user_id, track_id)
-
-      playlist.track(track_id).votes.count.should == 1
-      playlist.track(track_id).votes.first.user_id == user_id
-
-    end
-
-    it 'should count it once' do
-
-      2.times do
-        playlist.vote(user_id, track_id)
-      end
-
-      playlist.track(track_id).votes.count.should == 1
-
-    end
-
-    it 'should store the vote time' do
-
-      at_time(1000) { playlist.vote(user_id, track_id) }
-      playlist.tracks.first.votes.first.time.should == 1000
-
-      at_time(2000) { playlist.vote(user_id, track_id) }
-      playlist.tracks.first.votes.first.time.should == 2000
-
-    end
-
-  end
 
   describe '#scoring' do
 
@@ -86,8 +68,8 @@ describe Playlist do
         id: track_id
       )
 
-      at_time(1000) { playlist.vote(user_id, track_id) }
-      at_time(2000) { playlist.vote(other_user_id, track_id) }
+      at_time(1000) { playlist.track(track_id).vote(user_id) }
+      at_time(2000) { playlist.track(track_id).vote(other_user_id) }
     end
 
     it 'should calculate their score and mean age' do      
@@ -99,9 +81,9 @@ describe Playlist do
 
 
     it 'should ignore old votes' do
-      at_time(3000) do
+      at_time(3500) do
         playlist.tracks.first.score.should == 1
-        playlist.tracks.first.age.should == 1000
+        playlist.tracks.first.age.should == 1500
       end
     end
 
@@ -109,12 +91,55 @@ describe Playlist do
 
   describe '#snapshot' do
 
-    it 'should include the users vote date' do
-      pending
+    before(:each) do
+      playlist.add_track(
+        title: track_title,
+        artist: track_artist,
+        id: track_id
+      )
+
+      at_time(1000) { playlist.track(track_id).vote(user_id) }
+      at_time(2000) { playlist.track(track_id).vote(other_user_id) }
+    end
+
+    it 'should include the users vote status and date' do
+
+      at_time(2000) do
+
+        playlist.snapshot(user_id).should == [
+          {
+            title: track_title,
+            artist: track_artist,
+            id: track_id,
+            score: 2,
+            age: 500,
+            liked: true,
+            like_age: 1000
+          }
+        ]
+
+      end
+
     end
 
     it 'should include old tracks if the user voted on them' do
-      pending
+
+      at_time(5000) do
+
+        playlist.snapshot(user_id).should == [
+          {
+            title: track_title,
+            artist: track_artist,
+            id: track_id,
+            score: 0,
+            age: 2000,
+            liked: false,
+            like_age: 4000
+          }
+        ]
+
+      end
+
     end
 
   end
