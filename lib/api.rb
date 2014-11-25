@@ -1,16 +1,14 @@
 require 'sinatra/base'
 require 'sinatra/json'
-require 'sinatra/cookies'
 require 'rack/contrib'
 
 require 'playlist'
 require 'notifications'
+require 'current_user'
 
 class Api < Sinatra::Base
 
-  # Configuration
-  helpers Sinatra::Cookies
-  set :cookie_options, :domain => nil # Cookies on localhost are not persisted. https://github.com/sinatra/sinatra-contrib/issues/113
+  include CurrentUser
 
   use ::Rack::PostBodyContentTypeParser
 
@@ -19,26 +17,11 @@ class Api < Sinatra::Base
   end
 
 
-  # Handle the current user
-  before do
-    @user_id = cookies[:uid] ||= SecureRandom.hex(8)
-  end
-
-
   # Error handling
   def error(code, msg = nil)
     status code
     json error: msg if msg
     halt
-  end
-
-
-  # Create a playlist
-  post '/playlists' do
-    error(422, 'No code given') unless params[:code]
-
-    playlist = Playlist.create(params[:code])
-    json playlist.snapshot
   end
 
 

@@ -11,6 +11,9 @@ gem 'redis'
 # SERVER
 gem 'thin'
 
+# ASSETS
+gem 'sass'
+
 
 group :development, :test do
   gem 'pry'

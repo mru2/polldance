@@ -1,17 +1,11 @@
 # Notifications server for playlist updates, via Eventsource
 require 'sinatra/base'
-require 'sinatra/cookies'
 require 'notifications'
+require 'current_user'
 
 class Stream < Sinatra::Base
 
-  # Configuration
-  helpers Sinatra::Cookies
-  set :cookie_options, :domain => nil # Cookies on localhost are not persisted. https://github.com/sinatra/sinatra-contrib/issues/113
-
-  get '/' do
-    erb :test
-  end
+  include CurrentUser
 
   get '/:code', provides: 'text/event-stream' do
     user_id = cookies[:uid]
