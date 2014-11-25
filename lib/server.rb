@@ -6,10 +6,12 @@ require 'playlist'
 class Server < Sinatra::Base
 
   include CurrentUser
+  set :views, "#{APP_ROOT}/views"
+
 
   # Homepage
   get '/' do
-    render :home
+    erb :home
   end
 
 
@@ -32,7 +34,7 @@ class Server < Sinatra::Base
       redirect to('/?wrong_code')
     end
 
-    render :app
+    erb :app
   end
 
 
@@ -44,7 +46,7 @@ class Server < Sinatra::Base
       redirect to('/?wrong_code')
     end
 
-    render :player
+    erb :player
   end 
 
 

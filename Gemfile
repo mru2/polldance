@@ -13,6 +13,11 @@ gem 'thin'
 
 # ASSETS
 gem 'sass'
+gem 'sprockets'
+
+# JSX compilation
+gem 'execjs'
+gem 'tilt'
 
 
 group :development, :test do
