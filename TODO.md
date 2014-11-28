@@ -7,8 +7,19 @@ Front
  * material design : fat header + list
  * upvote via slide
  * internally : tracks voted at / added at
- 
- 
+
+ * flux-lite
+   - global store for playlist + get()
+   - actions (create / delete / ... ) on store
+   - expose callback onchange// without arguments (let the virtual DOM be recomputed, supposed to be optimized anyway) https://news.ycombinator.com/item?id=8098154
+   - components mounted with id, callback is setState(Store.get())
+
+   https://github.com/spoike/refluxjs?
+
+ * drop jquery for https://github.com/then/request
+
+ * roboto font
+
 Back
 
  * Ruby Sinatra API

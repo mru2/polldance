@@ -28,11 +28,13 @@ class Server < Sinatra::Base
 
   # App for a given playlist
   get '/:code' do
-    @playlist = Playlist.get(params[:code])
+    playlist = Playlist.get(params[:code])
 
-    if !@playlist
+    if !playlist
       redirect to('/?wrong_code')
     end
+
+    @bootstrap = playlist.snapshot(@user_id)
 
     erb :app
   end

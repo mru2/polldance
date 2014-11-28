@@ -27,7 +27,10 @@
 
   </div>
 
-  <script type="application/javascript" src="/assets/app/js/main.js"></script>
+  <script type="text/javascript">
+    window.BOOTSTRAP = <%= @bootstrap.to_json %>;
+  </script>
+  <script type="text/javascript" src="/assets/app/js/main.js"></script>
 
 </body>
 </html>
