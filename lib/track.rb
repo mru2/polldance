@@ -40,9 +40,9 @@ class Track
   # Track comparison : score then reverse age
   def <=>(other)
     if score == other.score
-      - (age <=> other.age)
+      (age <=> other.age)
     else
-      score <=> other.score
+      - (score <=> other.score)
     end
   end
 
@@ -65,7 +65,7 @@ class Track
 
   # Calculate the age (recent votes mean age)
   def age
-    score == 0 ? VOTE_TTL : (votes.values.sum.to_f / score)
+    score == 0 ? 1 : (votes.values.sum.to_f / score) / VOTE_TTL
   end
 
 
@@ -97,8 +97,9 @@ class Track
 
 
   # Snapshot for a given user. Also includes whether it is liked
+  # Nil if zero-score and not liked
   # JSON serializable
-  def snapshot(user_id = nil)
+  def snapshot(user_id = nil)    
     attrs = {
       id: id,
       artist: artist,
@@ -109,9 +110,10 @@ class Track
 
     if user_id
       like_age = user_vote(user_id)
-      attrs[:liked] = !!like_age && like_age < VOTE_TTL
-      attrs[:like_age] = like_age
+      attrs[:like_age] = like_age && (like_age / VOTE_TTL)
     end
+
+    return nil if (score == 0) && !attrs[:like_age]
 
     attrs
   end

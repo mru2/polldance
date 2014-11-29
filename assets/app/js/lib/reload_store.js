@@ -17,17 +17,15 @@
     listenables: [Actions],
 
     onUpdatePlaylist: function(){
+      console.log('[RELOAD] Playlist updated');
       // Clear timeout
+      this.trigger();
     },
 
     onRefresh: function(){
+      console.log('[RELOAD] Launching refresh');
       // Cancel timeout
       // Set reloading      
-    },
-
-    // Notifier
-    onUpdate: function(){
-      console.log('[RELOAD] Notifying of loading change');
       this.trigger();
     }
 

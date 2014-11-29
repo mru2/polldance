@@ -20,6 +20,8 @@ Front
 
  * roboto font
 
+ * css filter for animation
+
 Back
 
  * Ruby Sinatra API

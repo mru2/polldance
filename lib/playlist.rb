@@ -76,8 +76,8 @@ class Playlist
   def snapshot(user_id = nil)
     {
       code: code,
-      tracks: tracks.map{|t| t.snapshot(user_id)}
-    }    
+      tracks: tracks.map{|t| t.snapshot(user_id)}.compact
+    }
   end
 
 

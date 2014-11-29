@@ -9,23 +9,13 @@
   height: $inner-height / 2;
   line-height: $inner-height / 2;
   display: block;
-  color: $lightback;
 }
 
 .track-artist{
-  font-weight: 600;
+  font-weight: 400;
   font-style: italic;
   font-size: 12px;
   height: $inner-height / 2;
   line-height: $inner-height / 2;
   display: block;
-}
-
-
-.track-active{
-  color: $white;  
-
-  .track-title{
-    color: $white;
-  }
 }

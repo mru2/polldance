@@ -8,18 +8,22 @@
   // The current track
   var _currentTrack = null;
  
-
 	global.TracksStore = Reflux.createStore({
 
     // Getters
-
+    getTracks: function(){
+      return _tracks;
+    },
 
     // Listeners
 		listenables: [Actions], // Convenience syntax. cf https://github.com/spoike/refluxjs
 
 		onUpdatePlaylist: function(playlist) {
       console.log('[TRACKS] Received new playlist', playlist);
-      _tracks = playlist.tracks;
+      _tracks = _.map(playlist.tracks, function(track, index){
+        track.position = index;
+        return track;
+      });
       this.trigger();
 		},
 
@@ -30,7 +34,7 @@
 
 		onUpvoteTrack: function(trackId) {
       console.log('[TRACKS] Upvoting track', trackId);
-      // Optimistic upvote
+      PD.API.upvoteTrack(trackId);
 		}
 
 	});
