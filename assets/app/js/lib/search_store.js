@@ -14,7 +14,9 @@
   global.SearchStore = Reflux.createStore({
 
     // Getters
-
+    searchDisplayed: function(){
+      return _displayed;
+    },
 
     // Listeners
     listenables: [Actions],
@@ -32,6 +34,7 @@
     onToggleSearch: function(shown) {
       console.log('[SEARCH] Toggling search.');
       // Hide/show search
+      _displayed = !_displayed;
       this.trigger();
     },
 

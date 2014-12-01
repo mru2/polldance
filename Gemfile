@@ -19,6 +19,9 @@ gem 'sprockets'
 gem 'execjs'
 gem 'tilt'
 
+# 3RD PARTY
+gem 'httparty'
+
 
 group :development, :test do
   gem 'pry'

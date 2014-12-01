@@ -1,55 +1,45 @@
 /** @jsx React.DOM */
-// The react playlist component
-
-var TRACK_HEIGHT = 72; // $height
-
 var App = React.createClass({
   
   mixins: [Reflux.ListenerMixin],
 
   getInitialState: function() {
     return {
-      tracks: []
+      searchDisplayed: false
     };
   },
 
   componentDidMount: function() {
-    this.listenTo(PD.TracksStore, this.onTracksChange);
+    this.listenTo(PD.SearchStore, this.onSearchChange);
   },
 
-  onTracksChange: function(){
-    console.log('[PLAYLIST] Tracks changed');
-    this.setState({tracks: PD.TracksStore.getTracks()});
+  toggleSearch: function() {
+    PD.Actions.toggleSearch();
+  },
+
+  onSearchChange: function(){
+    console.log('[APP] Search changed');
+    this.setState({searchDisplayed: PD.SearchStore.searchDisplayed()});
   },
 
   render: function() {
 
-    var sorted_tracks = _.sortBy(this.state.tracks, function(track){ return track.id; });
-
-    var trackNodes = sorted_tracks.map(function(track){
-
-      var trackNode = (
-        <Track 
-          key={track.id}
-          ref={track.id}
-          id={track.id}
-          artist={track.artist}
-          title={track.title}
-          score={track.score}
-          age={track.age}
-          like_age={track.like_age} 
-          position={track.position} />
-      );
-
-      return trackNode;
-
-    });
-
     return (
       
-      <section>
-        {trackNodes}
-      </section>
+      <div className="main-container has-header">
+
+        <header className="item header">
+          <div className="item-content">
+            <span className="header-title">poll<em>.dance</em> / 2</span>
+            <span onClick={this.toggleSearch}>Search</span>
+          </div>
+        </header>
+
+        <Playlist displayed={!this.state.searchDisplayed} />
+
+        <Search displayed={this.state.searchDisplayed} />
+
+      </div>
 
     );
   }

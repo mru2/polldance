@@ -8,8 +8,13 @@ GEM
     eventmachine (1.0.3)
     execjs (2.2.2)
     hike (1.2.3)
+    httparty (0.13.1)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
+    json (1.8.1)
     method_source (0.8.2)
     multi_json (1.10.1)
+    multi_xml (0.5.5)
     pry (0.9.12.6)
       coderay (~> 1.0)
       method_source (~> 0.8)
@@ -59,6 +64,7 @@ PLATFORMS
 
 DEPENDENCIES
   execjs
+  httparty
   pry
   rack-contrib
   redis

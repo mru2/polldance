@@ -21,6 +21,8 @@
 
 // Components
 //=require app/js/components/track.js
+//=require app/js/components/playlist.js
+//=require app/js/components/search.js
 //=require app/js/components/app.js
 
 // Configuration
