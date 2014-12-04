@@ -4,7 +4,6 @@
 var LIKED_BG_NEW = '#8e44ad'; // $darkmain
 var UNLIKED_BG = '#ecf0f1'; // white 
 var SLIDER_PEEK = 72; // $height
-var TRACK_HEIGHT = 72; // $height
 
 var Track = React.createClass({
   getInitialState: function() {

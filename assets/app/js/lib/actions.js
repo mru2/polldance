@@ -7,12 +7,15 @@
 
   global.Actions = Reflux.createActions([
     "updatePlaylist",       // called in response of every ajax call, and also periodically or on eventsource notifications
-    "updateSearchResults",  // called in response of search results available
     "addTrack",             // called by swiping a result in the search view
+    "addTrackSuccess",      // called when a track is added
     "upvoteTrack",          // called by swiping a track in the playlist view
-    "doSearch",             // called by submitting the search form
+    "upvoteTrackSuccess",   // called when a track is upvoted
+    "search",               // called by submitting the search form
+    "searchSuccess",        // called when search results are available
     "toggleSearch",         // called by clicking the hide/show search button
-    "refresh"               // called by clicking the refresh button, or periodically
+    "refresh",              // called by clicking the refresh button, or periodically
+    "apiFailure"            // called when an API call failed
   ]);
 
 })(window.Reflux, window.PD);

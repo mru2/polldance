@@ -10,18 +10,21 @@
       this.playlist_code = playlist_code;
     },
 
-    upvoteTrack: function(trackId){
-
-      reqwest({
-        url: '/api/playlists/' + this.playlist_code + '/tracks/' + trackId,
+    search: function(query){
+      return reqwest({
+        url: '/api/v1/playlists/' + this.playlist_code + '/search',
         type: 'json',
-        method: 'post',
-        error: function (err) { alert('An error happened'); },
-        success: function (playlist) {
-          PD.Actions.updatePlaylist(playlist);
-        }
+        method: 'get',
+        data: {query: query}
       });
+    },
 
+    upvoteTrack: function(trackId){
+      return reqwest({
+        url: '/api/v1/playlists/' + this.playlist_code + '/tracks/' + trackId,
+        type: 'json',
+        method: 'post'
+      });
     }
   };
 

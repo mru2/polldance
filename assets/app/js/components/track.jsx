@@ -18,7 +18,6 @@ var LIKED_BG_NEW = '#8e44ad'; // $darkmain
 var getTrackStyles = function(props){
 
   styles = {
-    track: {},
     score: {}
   }
 
@@ -44,16 +43,23 @@ var getTrackStyles = function(props){
 
 var Track = React.createClass({
 
+  mixins: [PositionMixin], 
+
   componentDidMount: function() {
     console.log('[TRACK] Creating DOM node');
   },
 
   getInitialState: function() {
-    return {}
+    return {};
   },
 
   upvote: function(){
+    console.log('[TRACK] on upvote');
+
     PD.Actions.upvoteTrack(this.props.id);
+    PD.API.upvote(this.props.id)
+          .then(PD.Actions.upvoteTrackSuccess)
+          .then(PD.Actions.apiFailure);
   },
 
   render: function() {
@@ -62,7 +68,7 @@ var Track = React.createClass({
 
     return (
 
-      <div className="item track" style={styles.track}>
+      <div className="item track" style={this.getItemPositionStyle()}>
           <div className="item-right">
             <div className="item-content">
               <a className="item-icon">

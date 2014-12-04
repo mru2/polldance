@@ -7,6 +7,7 @@ class Playlist
   # Get the playlist for a given code
   # Returns nil if no playlist
   def self.get(code)
+    return nil unless code
     code = process_code(code)
     return nil unless REDIS.exists playlist_key(code)
     new(code)

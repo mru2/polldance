@@ -19,7 +19,7 @@
 		listenables: [Actions], // Convenience syntax. cf https://github.com/spoike/refluxjs
 
 		onUpdatePlaylist: function(playlist) {
-      console.log('[TRACKS] Received new playlist', playlist);
+      console.log('[TRACKS STORE] Received new playlist', playlist);
       _tracks = _.map(playlist.tracks, function(track, index){
         track.position = index;
         return track;
@@ -28,13 +28,13 @@
 		},
 
 		onAddTrack: function(trackId, title, artist) {
-      console.log('[TRACKS] Adding track', trackId, title, artist);
+      console.log('[TRACKS STORE] Adding track', trackId, title, artist);
       // Optimistic add
 		},
 
 		onUpvoteTrack: function(trackId) {
-      console.log('[TRACKS] Upvoting track', trackId);
-      PD.API.upvoteTrack(trackId);
+      console.log('[TRACKS STORE] Upvoting track', trackId);
+      // optimistic : ( (mean * count) + val ) / score + 1
 		}
 
 	});

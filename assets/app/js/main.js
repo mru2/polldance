@@ -10,7 +10,6 @@
 //=require app/js/lib/actions.js
 
 // Libs
-//=require app/js/lib/swipe_mixin.js
 //=require app/js/lib/api.js
 //=require app/js/lib/notifications.js
 
@@ -19,8 +18,13 @@
 //=require app/js/lib/search_store.js
 //=require app/js/lib/reload_store.js
 
+// Mixins
+//=require app/js/components/mixins/position.js
+//=require app/js/components/mixins/swipe.js
+
 // Components
 //=require app/js/components/track.js
+//=require app/js/components/result.js
 //=require app/js/components/playlist.js
 //=require app/js/components/search.js
 //=require app/js/components/app.js

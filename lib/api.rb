@@ -19,12 +19,6 @@ class Api < Sinatra::Base
   end
 
 
-  before do
-    @playlist = Playlist.get(params[:code])
-    error(404) unless @playlist
-  end
-
-
   # Error handling
   def error(code, msg = nil)
     status code
@@ -35,12 +29,18 @@ class Api < Sinatra::Base
 
   # Get a playlist's snapshot
   get '/playlists/:code' do
-    json @playlist.snapshot(@user_id)
+    playlist = Playlist.get(params[:code])
+    error(404) unless playlist
+
+    json playlist.snapshot(@user_id)
   end
 
 
   # Vote for a track
-  get '/playlist/:code/search' do
+  get '/playlists/:code/search' do
+    playlist = Playlist.get(params[:code])
+    error(404) unless playlist
+
     query = params[:query]
     error(404) unless query
 
@@ -52,36 +52,45 @@ class Api < Sinatra::Base
 
   # Add a track, and vote for it
   post '/playlists/:code/tracks' do
-    track = @playlist.add_track(params[:track])
+    playlist = Playlist.get(params[:code])
+    error(404) unless playlist
+
+    track = playlist.add_track(params[:track])
     track.vote(@user_id)
 
-    Notifications.publish(@playlist.code)
+    Notifications.publish(playlist.code)
 
-    json @playlist.snapshot(@user_id)
+    json playlist.snapshot(@user_id)
   end
 
 
   # Vote for a track
   # Track not found
   post '/playlists/:code/tracks/:track_id' do
-    track = @playlist.track(params[:track_id])
+    playlist = Playlist.get(params[:code])
+    error(404) unless playlist
+
+    track = playlist.track(params[:track_id])
     error(404) unless track
 
     track.vote(@user_id)
 
-    Notifications.publish(@playlist.code)
+    Notifications.publish(playlist.code)
 
-    json @playlist.snapshot(@user_id)
+    json playlist.snapshot(@user_id)
   end
 
 
   # Pop the top track from the playlist
   delete '/playlists/:code/tracks' do
-    track = @playlist.pop_top_track!
+    playlist = Playlist.get(params[:code])
+    error(404) unless playlist
+
+    track = playlist.pop_top_track!
 
     # TODO : recommendations if no track
 
-    Notifications.publish(@playlist.code)
+    Notifications.publish(playlist.code)
 
     json track ? track.snapshot : nil
   end
