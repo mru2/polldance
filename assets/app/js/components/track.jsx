@@ -58,11 +58,13 @@ var Track = React.createClass({
   
     // Styles for swiping
     var sliderStyle = {
-      transform: 'translateX(' + (this.state.sliderX) + 'px)'
+      transform: 'translateX(' + (this.state.sliderX) + 'px)',
+      '-webkit-transform': 'translateX(' + (this.state.sliderX) + 'px)'
     };
 
     var leftStyle = {
-      transform: 'translateX(' + (this.state.sliderX) + 'px)'
+      transform: 'translateX(' + (this.state.sliderX) + 'px)',
+      '-webkit-transform': 'translateX(' + (this.state.sliderX) + 'px)'
     };
 
     // Handle score opacity

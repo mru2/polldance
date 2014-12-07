@@ -9,8 +9,27 @@
 .track-score{
   @include headfont();
   transition: opacity 100ms ease;
+  -webkit-transition: opacity 100ms ease;
 }
 
 .track .item-left, .track .item-slider{
   transition: transform 100ms ease;
+  -webkit-transition: -webkit-transform 100ms ease;
 }
+
+// Score
+// .track .item-right{
+
+//   .item-content{
+//     padding: 9px;
+//   }
+
+//   .item-icon{
+//     border: 4px solid $accent;
+//     border-radius: 100%;
+//     width: 54px;
+//     height: 54px;
+//     line-height: 46px;
+//     box-sizing: border-box;
+//   }
+// }

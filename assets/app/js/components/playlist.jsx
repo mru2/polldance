@@ -22,7 +22,8 @@ var Playlist = React.createClass({
   render: function() {
 
     var sectionStyle = {
-      transform: 'translateX(' + (this.props.displayed ? '0' : '-100%') + ')'
+      transform: 'translateX(' + (this.props.displayed ? '0' : '-100%') + ')',
+      '-webkit-transform': 'translateX(' + (this.props.displayed ? '0' : '-100%') + ')'
     };
 
     var sorted_tracks = _.sortBy(this.state.tracks, function(track){ return track.id; });
