@@ -5,9 +5,14 @@
 	// Global array with all our tracks
 	var _tracks = [];
 
-  // The current track
-  var _currentTrack = null;
- 
+  // Update the playlist
+  var updatePlaylist = function(newPlaylist) {
+    _tracks = _.map(newPlaylist.tracks, function(track, index){
+      track.position = index;
+      return track;
+    });    
+  };
+
 	global.TracksStore = Reflux.createStore({
 
     // Getters
@@ -20,22 +25,26 @@
 
 		onUpdatePlaylist: function(playlist) {
       console.log('[TRACKS STORE] Received new playlist', playlist);
-      _tracks = _.map(playlist.tracks, function(track, index){
-        track.position = index;
-        return track;
-      });
+      updatePlaylist(playlist);
       this.trigger();
 		},
 
-		onAddTrack: function(trackId, title, artist) {
-      console.log('[TRACKS STORE] Adding track', trackId, title, artist);
-      // Optimistic add
+		onAddTrackSuccess: function(playlist) {
+      console.log('[TRACKS STORE] Track added', playlist);
+      updatePlaylist(playlist);
+      this.trigger();
 		},
 
 		onUpvoteTrack: function(trackId) {
       console.log('[TRACKS STORE] Upvoting track', trackId);
       // optimistic : ( (mean * count) + val ) / score + 1
-		}
+		},
+
+    onUpvoteTrackSuccess: function(playlist) {
+      console.log('[TRACKS STORE] Track upvoted', playlist);
+      updatePlaylist(playlist);
+      this.trigger();      
+    }
 
 	});
 

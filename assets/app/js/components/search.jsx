@@ -45,7 +45,7 @@ var Search = React.createClass({
           id={result.id}
           artist={result.artist}
           title={result.title}
-          position={index} />
+          position={index + 1} />
       );
 
       return resultNode;
@@ -54,11 +54,22 @@ var Search = React.createClass({
 
     return (
       <section style={sectionStyle}>
-        <h1>Search</h1>
-        <form onSubmit={this.handleSubmit}>
-          <input type="text" placeholder="Artist, track, ..." ref="searchInput" />
-          <button onClick={this.handleSubmit}>Search</button>
-        </form>
+        <div className="item subheader">
+          <form onSubmit={this.handleSubmit}>
+            <div className="item-left">
+              <div className="item-content">
+                <input className="search-input" type="text" placeholder="Artist, track, ..." ref="searchInput" />
+              </div>
+            </div>
+            <div className="item-right search-submit" onClick={this.handleSubmit}>
+              <div className="item-content">
+                <span className="item-icon">
+                  <i className="fa fa-search"></i>
+                </span>
+              </div>
+            </div>
+          </form>          
+        </div>
 
         { resultNodes }
 

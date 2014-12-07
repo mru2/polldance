@@ -1,5 +1,5 @@
 .header{
-  background-color: $darkback;
+  background-color: $darktheme;
   color: $white;
   position: fixed;
   border-bottom: none;
@@ -8,14 +8,16 @@
 }
 
 .has-header{
-  margin-top: $height;  
+  margin-top: $height;
 }
 
 .header-title{
-  @extend h1;
+  @include headfont();
+  line-height: $inner-height;
+  font-size: $font-size;
+}
 
-  em{
-    color: lighten($lightmain, 10);
-    font-style: normal;
-  }
+.subheader{
+  background: $lighttheme;
+  color: $white;
 }

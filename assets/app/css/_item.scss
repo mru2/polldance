@@ -2,7 +2,8 @@
 $height: 72px;
 $padding: 15px;
 $inner-height: 42px;
-
+$font-size: 26px;
+$font-size-mid: 16px;
 
 .item{
   width: 100%;
@@ -14,6 +15,15 @@ $inner-height: 42px;
 
 .item-content{
   padding: $padding;
+}
+
+.item-line{
+  height: $inner-height / 2;
+  line-height: $inner-height / 2;
+  overflow: hidden;
+  text-overflow: ellipsis;  
+  display: block;
+  font-size: $font-size / 2;
 }
 
 .item-left{
@@ -37,7 +47,7 @@ $inner-height: 42px;
   left: -100%;
   top: 0px;
   color: $white;
-  background: $lightmain;
+  background: $accent;
 }
 
 .item-icon{

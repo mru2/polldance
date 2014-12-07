@@ -12,6 +12,17 @@ var Result = React.createClass({
     return {};
   },
 
+  addTrack: function() {
+    PD.Actions.addTrack(this.props.id);
+    PD.API.addTrack({
+            id: this.props.id,
+            title: this.props.title,
+            artist: this.props.artist
+          })
+          .then(PD.Actions.addTrackSuccess)
+          .then(PD.Actions.apiFailure);    
+  },
+
   render: function() {
   
     return (
@@ -35,8 +46,8 @@ var Result = React.createClass({
 
           <div className="item-left">
               <div className="item-content">
-                  <span className="track-title">{this.props.title}</span>
-                  <span className="track-artist">{this.props.artist}</span>
+                  <span className="item-line track-title">{this.props.title}</span>
+                  <span className="item-line track-artist">{this.props.artist}</span>
               </div>
           </div>
       </div>

@@ -1,11 +1,12 @@
 //= require vendor/normalize-css/normalize.css
+@import "../../shared/css/typo";
+@import "../../shared/css/colors";
 
-@import "colours";
 @import "item";
 
-@import "typo";
 @import "track";
 @import "track_animations";
 
 @import "header";
+@import "search";
 @import "layout";

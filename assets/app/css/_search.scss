@@ -1,0 +1,21 @@
+.search{
+	background: $lighttheme;
+}
+
+.search-submit{
+	color: $white;
+}
+
+.search-input{
+	border: none;
+	background: transparent;
+	height: $inner-height;
+	line-height: $inner-height;
+	width: 100%;
+	outline: none;
+	padding: 0;
+	font-size: $font-size-mid;
+	&::-webkit-input-placeholder{
+		color: $midwhite;
+	} 
+}

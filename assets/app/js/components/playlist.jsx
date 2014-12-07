@@ -39,7 +39,7 @@ var Playlist = React.createClass({
           score={track.score}
           age={track.age}
           like_age={track.like_age} 
-          position={track.position} />
+          position={track.position + 1} />
       );
 
       return trackNode;
@@ -49,6 +49,21 @@ var Playlist = React.createClass({
     return (
 
       <section style={sectionStyle}>
+        <div className="item subheader track">
+          <div className="item-left">
+              <div className="item-content">
+                  <div className="item-line">Happy</div>
+                  <div className="item-line">C2C</div>
+              </div>
+          </div>
+          <div className="item-right">
+            <div className="item-content">
+              <a className="item-icon">
+                <i className="fa fa-volume-up"></i>
+              </a>
+            </div>
+          </div>
+        </div>
         { trackNodes }
       </section>
 

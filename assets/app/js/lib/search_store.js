@@ -53,6 +53,7 @@
     onAddTrackSuccess: function() {
       console.log('[SEARCH STORE] Track added');
       // Hide the search
+      _displayed = false;
       this.trigger();
     },
 

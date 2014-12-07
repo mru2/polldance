@@ -1,0 +1,16 @@
+@mixin headfont{
+	font-family: "Montserrat";
+	font-weight: 700;
+};
+
+@mixin basefont{
+	font-family: "Roboto";
+	font-weight: 400;
+};
+
+body{
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  word-wrap: break-word;
+  @include basefont();
+}

@@ -2,66 +2,58 @@
 // http://facebook.github.io/react/docs/reusable-components.html#mixins
 // =========================
 
+// Handle the swiping for a react track
+// Done out of the react component to have a better resolution on the touch events
 
-// // Handle the swiping for a react track
-// // Done out of the react component to have a better resolution on the touch events
+// TODO : destroy it when the element is unmounted
 
-// // TODO : destroy it when the element is unmounted
+var SwipeMixin = {
 
-// var SwipeController = function(reactEl, cbs){
+	componentDidMount: function(){
+		var domNode = this.getDOMNode();
 
-//   this.reactEl = reactEl;
-//   this.cbs = cbs;
+		// Needed data
+		this.length = domNode.offsetWidth;
+	  this.direction = 0;
+  	this.swiping = false;
+  	this.swipeDistance = null;
+	  
+		var callback = _.bind(this.onUpdate, this);
 
-//   console.log('initializing swipe controller on', reactEl);
-//   var domNode = reactEl.getDOMNode();
+		// Listen to swipe events
+		this.mc = new Hammer(domNode);
+		this.mc.on('pan', callback);
+	  domNode.addEventListener('touchstart', callback);
+    domNode.addEventListener('touchend', callback);
+	},
 
-//   // Initialize hammer.js
-//   this.mc = new Hammer(domNode);
+	componentWillUnmount: function(){
+		delete this.mc;
+	},
 
-//   var callback = _.bind(this.onUpdate, this);
-//   this.mc.on('pan', callback);
+	onUpdate: function(event){
+	  if (event.type === 'touchstart') {
+	    this.swiping = true;
+	    this.handleSwipeStart();
+	  }
 
-//   domNode.addEventListener('touchstart', callback);
-//   domNode.addEventListener('touchend', callback);
+	  if (event.type === 'touchend') {
+	    this.swiping = false;
 
-//   // Store element size
-//   this.length = domNode.offsetWidth;
+	    if (this.swipeDistance > (this.length / 4)) {
+	      this.handleSwipeSuccess();
+	      return;
+	    }
+	    else {
+	      this.handleSwipeFailure();
+	    }
+	  }
 
-//   // Store current state
-//   this.direction = 0;
-//   this.swiping = false;
-//   this.swipeDistance = null;
+	  if (event.type === 'pan') {
+	    this.swipeDistance = event.deltaX;
+	    this.direction = event.direction;
 
-// };
-
-
-// SwipeController.prototype.onUpdate = function(event){
-
-//   if (event.type === 'touchstart') {
-//     this.swiping = true;
-//     this.cbs.start();
-//   }
-
-//   if (event.type === 'touchend') {
-//     this.swiping = false;
-
-//     if (this.swipeDistance > (this.length / 4)) {
-//       this.cbs.success();
-//       return;
-//     }
-//     else {
-//       this.cbs.failure();
-//     }
-//   }
-
-//   if (event.type === 'pan') {
-//     this.swipeDistance = event.deltaX;
-//     this.direction = event.direction;
-
-//     this.cbs.move(event.deltaX);
-//   }
-// };
-
-
-// window.SwipeController = SwipeController;
+	    this.handleSwipeProgress(event.deltaX);
+	  }		
+	}
+}

@@ -9,62 +9,66 @@
 
 // Constants for rendering
 var TRACK_HEIGHT = 72;
-var UNLIKED_BG = '#ecf0f1'; // $white
-var LIKED_BG_NEW = '#8e44ad'; // $darkmain
-
-
-
-// Styles
-var getTrackStyles = function(props){
-
-  styles = {
-    score: {}
-  }
-
-  // Top position
-  styles.track.transform = 'translateY(' + props.position * 72 + 'px)';
-
-  // Score scale
-  styles.score.transform = 'scale(' + (1.2 - props.age * 0.4) + ')';
-
-  // Background
-  if ( props.like_age ) {
-    styles.track.backgroundColor = tinycolor(LIKED_BG_NEW).desaturate(props.like_age * 100).toString();
-    styles.track.color = UNLIKED_BG;
-  }
-  else {
-    styles.track.backgroundColor = UNLIKED_BG;
-  }
-
-  return styles;
-
-};
-
 
 var Track = React.createClass({
 
-  mixins: [PositionMixin], 
+  mixins: [PositionMixin, SwipeMixin], 
 
   componentDidMount: function() {
     console.log('[TRACK] Creating DOM node');
   },
 
   getInitialState: function() {
-    return {};
+    return {
+      sliderX: 0
+    };
   },
 
   upvote: function(){
     console.log('[TRACK] on upvote');
 
     PD.Actions.upvoteTrack(this.props.id);
-    PD.API.upvote(this.props.id)
+    PD.API.upvoteTrack(this.props.id)
           .then(PD.Actions.upvoteTrackSuccess)
           .then(PD.Actions.apiFailure);
   },
 
+  handleSwipeStart: function(){
+    console.log('[TRACK] swipe start');
+    this.setState({sliderX: 72});
+  },
+
+  handleSwipeProgress: function(length){
+    console.log('[TRACK] swipe progress : ', length);
+    this.setState({sliderX: 72 + length});
+  },
+
+  handleSwipeSuccess: function(length){
+    console.log('[TRACK] swipe success');
+    this.setState({sliderX: 0});
+    this.upvote();
+  }, 
+
+  handleSwipeFailure: function(length){
+    console.log('[TRACK] swipe failure');
+    this.setState({sliderX: 0});
+  },
+
   render: function() {
   
-    var styles = getTrackStyles(this.props);
+    // Styles for swiping
+    var sliderStyle = {
+      transform: 'translateX(' + (this.state.sliderX) + 'px)'
+    };
+
+    var leftStyle = {
+      transform: 'translateX(' + (this.state.sliderX) + 'px)'
+    };
+
+    // Handle score opacity
+    if (this.state.sliderX > 0) {
+      var scoreStyle = {opacity: 0};
+    }
 
     return (
 
@@ -72,12 +76,12 @@ var Track = React.createClass({
           <div className="item-right">
             <div className="item-content">
               <a className="item-icon">
-                <span className="track-score" style={styles.score} onClick={this.upvote}>{this.props.score}</span>
+                <span className="track-score" style={scoreStyle} onClick={this.upvote}>{this.props.score}</span>
               </a>
             </div>
           </div>
 
-          <div className='item-slider'>
+          <div className='item-slider' style={sliderStyle}>
             <div className="item-right">
               <div className="item-content">
                 <i className="item-icon fa fa-heart"></i>
@@ -85,10 +89,10 @@ var Track = React.createClass({
             </div>
           </div>
 
-          <div className="item-left">
+          <div className="item-left" style={leftStyle}>
               <div className="item-content">
-                  <span className="track-title">{this.props.title}</span>
-                  <span className="track-artist">{this.props.artist}</span>
+                  <div className="item-line track-title">{this.props.title}</div>
+                  <div className="item-line track-artist">{this.props.artist}</div>
               </div>
           </div>
       </div>
