@@ -49,7 +49,7 @@ var Playlist = React.createClass({
 
     return (
 
-      <section style={sectionStyle}>
+      <section style={sectionStyle} className="scroll-content has-header">
         <div className="item subheader track">
           <div className="item-left">
               <div className="item-content">

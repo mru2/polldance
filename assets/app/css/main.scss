@@ -1,6 +1,28 @@
-//= require vendor/normalize-css/normalize.css
+$height: 72px;
+$padding: 15px;
+$inner-height: 42px;
+$font-size: 26px;
+$font-size-mid: 16px;
+
 @import "../../shared/css/typo";
 @import "../../shared/css/colors";
+
+// Ionic variables
+$base-color: $black;
+$font-size-base: $font-size;
+$font-family-base: 'Roboto';
+$line-height-computed: $inner-height;
+$line-height-computed: $inner-height;
+$z-index-scroll-bar: 9999;
+$scroll-refresh-icon-color: $midgray;
+$bar-height: $height;
+$tabs-height: $height;
+$z-index-pane: 1;
+$z-index-view: 1;
+
+@import "../../vendor/ionic/scss/_mixins.scss";
+@import "../../vendor/ionic/scss/_reset.scss";
+@import "../../vendor/ionic/scss/_scaffolding.scss";
 
 @import "item";
 

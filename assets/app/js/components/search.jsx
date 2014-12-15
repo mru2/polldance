@@ -54,7 +54,7 @@ var Search = React.createClass({
     });
 
     return (
-      <section style={sectionStyle}>
+      <section style={sectionStyle} className="scroll-content has-header">
         <div className="item subheader">
           <form onSubmit={this.handleSubmit}>
             <div className="item-left">

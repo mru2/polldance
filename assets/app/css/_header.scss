@@ -7,10 +7,6 @@
   z-index: 3;
 }
 
-.has-header{
-  margin-top: $height;
-}
-
 .header-title{
   @include headfont();
   line-height: $inner-height;
