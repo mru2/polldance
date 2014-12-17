@@ -22,6 +22,8 @@ gem 'tilt'
 # 3RD PARTY
 gem 'httparty'
 
+# PROD
+gem 'dotenv', require: false
 
 group :development, :test do
   gem 'pry'
