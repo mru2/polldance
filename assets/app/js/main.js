@@ -1,5 +1,6 @@
 // Vendor
 //=require vendor/react/react.js
+//=require vendor/react-tween-state/index-bower.js
 //=require vendor/reflux/dist/reflux.js
 //=require vendor/tinycolor/tinycolor.js
 //=require vendor/lodash/dist/lodash.compat.js
@@ -21,6 +22,7 @@
 // Mixins
 //=require app/js/components/mixins/position.js
 //=require app/js/components/mixins/swipe.js
+//=require app/js/components/mixins/animations.js
 
 // Components
 //=require app/js/components/track.js

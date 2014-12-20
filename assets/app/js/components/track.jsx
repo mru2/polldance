@@ -1,18 +1,12 @@
 /** @jsx React.DOM */
 // The react track component
 
-// var LIKED_BG_NEW = '#8e44ad'; // $darkmain
-// var UNLIKED_BG = '#ecf0f1'; // white 
-// var SLIDER_PEEK = 72; // $height
-// var TRACK_HEIGHT = 72; // $height
-
-
-// Constants for rendering
-var TRACK_HEIGHT = 72;
-
 var Track = React.createClass({
 
-  mixins: [PositionMixin, SwipeMixin], 
+  mixins: [PositionMixin, SwipeMixin, AnimationMixin], 
+
+  sliderIcon: 'item-icon fa fa-heart',
+  sliderIconLoading: 'item-icon fa fa-circle-o-notch fa-spin',
 
   componentDidMount: function() {
     console.log('[TRACK] Creating DOM node');
@@ -20,7 +14,6 @@ var Track = React.createClass({
 
   getInitialState: function() {
     return {
-      sliderX: 0
     };
   },
 
@@ -35,42 +28,29 @@ var Track = React.createClass({
 
   handleSwipeStart: function(){
     console.log('[TRACK] swipe start');
-    this.setState({sliderX: 72});
+    this.animateTo('hover');
   },
 
   handleSwipeProgress: function(length){
-    console.log('[TRACK] swipe progress : ', length);
-    this.setState({sliderX: 72 + length});
+    // console.log('[TRACK] swipe progress : ', length);
+    this.animateTo('hover', {delta: length});
   },
 
   handleSwipeSuccess: function(length){
     console.log('[TRACK] swipe success');
-    this.setState({sliderX: 0});
+    this.animateTo('sending');
     this.upvote();
   }, 
 
   handleSwipeFailure: function(length){
     console.log('[TRACK] swipe failure');
-    this.setState({sliderX: 0});
+    this.animateTo('start');
   },
 
   render: function() {
-  
-    // Styles for swiping
-    var sliderStyle = {
-      transform: 'translateX(' + (this.state.sliderX) + 'px)',
-      '-webkit-transform': 'translateX(' + (this.state.sliderX) + 'px)'
-    };
 
-    var leftStyle = {
-      transform: 'translateX(' + (this.state.sliderX) + 'px)',
-      '-webkit-transform': 'translateX(' + (this.state.sliderX) + 'px)'
-    };
-
-    // Handle score opacity
-    if (this.state.sliderX > 0) {
-      var scoreStyle = {opacity: 0};
-    }
+    var styles = this.getStyles();
+    var sliderIcon = (this.props.upvoting) ? this.sliderIconLoading : this.sliderIcon;
 
     return (
 
@@ -78,20 +58,20 @@ var Track = React.createClass({
           <div className="item-right">
             <div className="item-content">
               <a className="item-icon">
-                <span className="track-score" style={scoreStyle} onClick={this.upvote}>{this.props.score}</span>
+                <span className="track-score" style={styles.score} onClick={this.upvote}>{this.props.score}</span>
               </a>
             </div>
           </div>
 
-          <div className='item-slider' style={sliderStyle}>
+          <div className='item-slider' style={styles.slider}>
             <div className="item-right">
               <div className="item-content">
-                <i className="item-icon fa fa-heart"></i>
+                <i className={sliderIcon}></i>
               </div>
             </div>
           </div>
 
-          <div className="item-left" style={leftStyle}>
+          <div className="item-left" style={styles.left}>
               <div className="item-content">
                   <div className="item-line track-title">{this.props.title}</div>
                   <div className="item-line track-artist">{this.props.artist}</div>

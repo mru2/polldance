@@ -13,6 +13,11 @@
     });    
   };
 
+  // Fetch a track
+  var getTrack = function(trackId) {
+    return _.find(_tracks, function(track){ return track.id === trackId });
+  };
+
 	global.TracksStore = Reflux.createStore({
 
     // Getters
@@ -37,6 +42,9 @@
 
 		onUpvoteTrack: function(trackId) {
       console.log('[TRACKS STORE] Upvoting track', trackId);
+      var track = getTrack(trackId);
+      track.upvoting = true;
+      this.trigger();
       // optimistic : ( (mean * count) + val ) / score + 1
 		},
 

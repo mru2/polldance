@@ -40,7 +40,8 @@ var Playlist = React.createClass({
           score={track.score}
           age={track.age}
           like_age={track.like_age} 
-          position={track.position + 1} />
+          position={track.position + 1}
+          upvoting={!!track.upvoting} />
       );
 
       return trackNode;

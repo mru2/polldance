@@ -28,11 +28,17 @@ class Recommender
       item: {
         item_id: deezer_id.to_s,
         song_id: get_song_id(deezer_id),
-        favorite: true
+        play_count: 1
+        # favorite: true
       }
     }]
 
     ECHONEST.post '/catalog/update', id: id, data: payload.to_json
+  end
+
+  # On skip!
+  def remove(deezer_id)
+
   end
 
   def suggestions
@@ -40,6 +46,7 @@ class Recommender
       type: 'catalog-radio',
       seed_catalog: id,
       adventurousness: 0.8,
+      distribution: 'wandering',
       bucket: ['id:deezer', 'tracks'],
       limit: true
 
