@@ -11,6 +11,7 @@
     "reflux": "~0.2.0",
     "reqwest": "~1.1.5",
     "ionic": "~0.9.27",
-    "react-tween-state": "~0.0.4"
+    "react-tween-state": "~0.0.4",
+    "fontawesome": "~4.2.0"
   }
 }
