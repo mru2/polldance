@@ -24,6 +24,10 @@ $z-index-view: 1;
 @import "../../vendor/ionic/scss/_reset.scss";
 @import "../../vendor/ionic/scss/_scaffolding.scss";
 
+// Font awesome variables
+$fa-font-path: "/assets/vendor/fontawesome/fonts";
+@import "../../vendor/fontawesome/scss/font-awesome.scss";
+
 @import "item";
 
 @import "track";
