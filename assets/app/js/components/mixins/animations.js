@@ -1,6 +1,10 @@
 // Style constants
 SLIDER_PEEK_X = 72;
-SLIDER_PEEK_DURATION = 100;
+SLIDER_PEEK_DURATION = 150;
+SCORE_UPDATE_DURATION = 500;
+RED = '#e74c3c';
+
+var EASINGS = tweenState.easingTypes;
 
 var AnimationMixin = {
 
@@ -11,6 +15,7 @@ var AnimationMixin = {
   // - slider x
   // - score opacity
   // - slider opacity
+  // - slider icon opacity
 
   // Direct states
   // -------------
@@ -35,8 +40,14 @@ var AnimationMixin = {
     // Should depend on 'liked' prop
     return {
       animation_step: 'start',
+      scoreColor: 'black',
       sliderX: 0,
-      scoreOpacity: 1
+      leftX: 0,
+      scoreOpacity: 1,
+      sliderOpacity: 1,
+      sliderIconOpacity: 1,
+      scoreScale: 1,
+      scoreBackground: 'transparent'
     };
   },
 
@@ -54,24 +65,39 @@ var AnimationMixin = {
 
   // Handle custom styles depending on current state
   getStyles: function(sliderDelta){
-    var sliderX = this.getTweeningValue('sliderX');
-    var scoreOpacity = this.getTweeningValue('scoreOpacity');
+    var sliderX           = this.getTweeningValue('sliderX');
+    var scoreOpacity      = this.getTweeningValue('scoreOpacity');
+    var sliderOpacity     = this.getTweeningValue('sliderOpacity');
+    var sliderIconOpacity = this.getTweeningValue('sliderIconOpacity');
+    var scoreScale        = this.getTweeningValue('scoreScale');
 
-    // console.log('styles : ', sliderX, scoreOpacity)
+    var leftX = (this.state.animation_step == 'hover' || this.state.animation_step == 'sending' || this.state.animation_step == 'start') ? sliderX : 0;
 
     return {
       slider: {
+        opacity: sliderOpacity,
         'transform': 'translateX(' + sliderX + 'px)',
         '-webkit-transform': 'translateX(' + sliderX + 'px)'
       },
 
       left: {
-        'transform': 'translateX(' + sliderX + 'px)',
-        '-webkit-transform': 'translateX(' + sliderX + 'px)'
+        'transform': 'translateX(' + leftX + 'px)',
+        '-webkit-transform': 'translateX(' + leftX + 'px)'
+      },
+
+      sliderIcon: {
+        opacity: sliderIconOpacity
+      },
+
+      right: {
+        'background-color': this.state.scoreBackground
       },
 
       score: {
-        opacity: scoreOpacity
+        opacity: scoreOpacity,
+        'transform': 'scale(' + scoreScale + ')',
+        '-webkit-transform': 'scale(' + scoreScale + ')',
+        color: this.state.scoreColor
       }
     }
   },
@@ -84,14 +110,14 @@ var AnimationMixin = {
 
     // Show slider
     this.tweenState('sliderX', {
-      easing: tweenState.easingTypes.easeOutQuad,
+      easing: EASINGS.easeInQuad,
       duration: SLIDER_PEEK_DURATION,
       endValue: SLIDER_PEEK_X
     });
 
     // Hide score
     this.tweenState('scoreOpacity', {
-      easing: tweenState.easingTypes.linear,
+      easing: EASINGS.linear,
       duration: SLIDER_PEEK_DURATION,
       endValue: 0
     });    
@@ -107,7 +133,7 @@ var AnimationMixin = {
 
     // Let the peek finish ?
     this.tweenState('sliderX', {
-      easing: tweenState.easingTypes.easeInOutQuad,
+      easing: EASINGS.easeInOutQuad,
       duration: 0,
       endValue: SLIDER_PEEK_X + delta
     });
@@ -121,14 +147,14 @@ var AnimationMixin = {
 
     // Hide slider
     this.tweenState('sliderX', {
-      easing: tweenState.easingTypes.easeInQuad,
+      easing: EASINGS.easeInQuad,
       duration: SLIDER_PEEK_DURATION,
       endValue: 0
     });
 
     // Show score
     this.tweenState('scoreOpacity', {
-      easing: tweenState.easingTypes.linear,
+      easing: EASINGS.easeInQuad,
       duration: SLIDER_PEEK_DURATION,
       endValue: 1
     });    
@@ -143,10 +169,87 @@ var AnimationMixin = {
 
     // Fill slider
     this.tweenState('sliderX', {
-      easing: tweenState.easingTypes.easeOutQuad,
+      easing: EASINGS.easeOutQuad,
       duration: SLIDER_PEEK_DURATION,
       endValue: this.getDOMNode().offsetWidth
     });
+
+  },
+
+  // ==================
+  // Sending successful
+  // ==================
+  sending_to_done: function(data){
+
+    console.log('animating to done');
+
+    // var upvoted = !!data.upvoted;
+    var upvoted = true;
+
+    var self = this;
+    var duration = SCORE_UPDATE_DURATION;
+
+
+    // Upvoted : 2 steps
+    // - 1. the score replaces the spinner with a scale effect
+    // - 2. the slider disappears, revealing the new liked track
+
+    // Not upvoted (refreshed) : 1 step
+    // - the slider disappear AND the score reappear
+
+    if (upvoted) {
+
+      // Hide upvote icon
+      self.tweenState('sliderIconOpacity', {
+        easing: EASINGS.easeOutQuad,
+        duration: duration,
+        endValue: 0
+      });
+
+      // Enter score
+      self.setState({scoreScale: 3, scoreColor: 'white'});
+
+      self.tweenState('scoreOpacity', {
+        easing: EASINGS.easeInQuad,
+        duration: duration,
+        endValue: 1
+      });
+
+      self.tweenState('scoreScale', {
+        easing: EASINGS.easeInQuad,
+        duration: duration,
+        endValue: 1
+      });
+
+      setTimeout(function(){
+
+        // Hide slider
+        self.setState({scoreBackground: RED});
+        self.tweenState('sliderOpacity', {
+          easing: EASINGS.easeOutQuad,
+          duration: duration,
+          endValue: 0
+        });
+
+
+        setTimeout(function(){
+          // Reset slider
+          self.setState({
+            sliderX: 0,
+            sliderOpacity: 1,
+            sliderIconOpacity: 1
+          })
+        }, duration);
+
+      }, duration);
+
+    }
+
+    else {
+
+      alert('should not be here');
+
+    }
 
   }
 

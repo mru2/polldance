@@ -13,16 +13,20 @@ var Track = React.createClass({
   },
 
   getInitialState: function() {
-    return {
-    };
-  },
+    return {};
+ },
 
   upvote: function(){
     console.log('[TRACK] on upvote');
 
+    var self = this;
+
     PD.Actions.upvoteTrack(this.props.id);
     PD.API.upvoteTrack(this.props.id)
-          .then(PD.Actions.upvoteTrackSuccess)
+          .then(function(response){
+            PD.Actions.upvoteTrackSuccess(response);
+            self.animateTo('done');
+          })
           .then(PD.Actions.apiFailure);
   },
 
@@ -55,7 +59,7 @@ var Track = React.createClass({
     return (
 
       <div className="item track" style={this.getItemPositionStyle()}>
-          <div className="item-right">
+          <div className="item-right" style={styles.right}>
             <div className="item-content">
               <a className="item-icon">
                 <span className="track-score" style={styles.score} onClick={this.upvote}>{this.props.score}</span>
@@ -66,7 +70,7 @@ var Track = React.createClass({
           <div className='item-slider' style={styles.slider}>
             <div className="item-right">
               <div className="item-content">
-                <i className={sliderIcon}></i>
+                <i className={sliderIcon} style={styles.sliderIcon} ></i>
               </div>
             </div>
           </div>

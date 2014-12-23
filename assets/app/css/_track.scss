@@ -8,13 +8,8 @@
 
 .track-score{
   @include headfont();
-  transition: opacity 100ms ease;
-  -webkit-transition: opacity 100ms ease;
-}
-
-.track .item-left, .track .item-slider{
-  transition: transform 100ms ease;
-  -webkit-transition: -webkit-transform 100ms ease;
+  display: inline-block;
+  z-index: 3;
 }
 
 // Score
