@@ -36,7 +36,7 @@ class Api < Sinatra::Base
   end
 
 
-  # Vote for a track
+  # Search for a track
   get '/playlists/:code/search' do
     playlist = Playlist.get(params[:code])
     error(404) unless playlist

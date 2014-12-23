@@ -1,3 +1,15 @@
+@font-face {
+  font-family: 'Montserrat';
+  font-weight: 700;
+  src: url('/assets/shared/fonts/Montserrat-Bold.ttf')  format('truetype');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-weight: 400;
+  src: url('/assets/shared/fonts/Roboto-Regular.ttf')  format('truetype');
+}
+
 @mixin headfont{
 	font-family: "Montserrat";
 	font-weight: 700;
