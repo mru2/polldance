@@ -6,6 +6,7 @@
   box-sizing: border-box;
   overflow: hidden;
   position: absolute; // Moved via GPU transforms
+  background: white;
 }
 
 .item-content{

@@ -9,12 +9,16 @@ var Track = React.createClass({
   sliderIconLoading: 'item-icon fa fa-circle-o-notch fa-spin',
 
   componentDidMount: function() {
-    console.log('[TRACK] Creating DOM node');
+    console.log('[TRACK] Creating DOM node', this.props);
   },
 
   getInitialState: function() {
     return {};
- },
+  },
+
+  liked: function() {
+    return !!this.props.like_age && this.props.like_age < 1;
+  },
 
   upvote: function(){
     console.log('[TRACK] on upvote');
@@ -25,7 +29,7 @@ var Track = React.createClass({
     PD.API.upvoteTrack(this.props.id)
           .then(function(response){
             PD.Actions.upvoteTrackSuccess(response);
-            self.animateTo('done');
+            self.animateTo('done'); // Should already be set as liked
           })
           .then(PD.Actions.apiFailure);
   },

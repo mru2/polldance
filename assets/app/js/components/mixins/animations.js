@@ -30,11 +30,6 @@ var AnimationMixin = {
   // hover -> sending
   // sending -> done
   // sending -> start
-  // done -> hover
-  // hover -> done
-  // hover -> canceling
-  // canceling -> done
-  // canceling -> start
 
   getInitialState: function(){
     // Should depend on 'liked' prop
@@ -49,6 +44,10 @@ var AnimationMixin = {
       scoreScale: 1,
       scoreBackground: 'transparent'
     };
+  },
+
+  componentDidMount: function(){
+    this.fullWidth = this.getDOMNode().offsetWidth;
   },
 
   animateTo: function(target, data){
@@ -73,6 +72,9 @@ var AnimationMixin = {
 
     var leftX = (this.state.animation_step == 'hover' || this.state.animation_step == 'sending' || this.state.animation_step == 'start') ? sliderX : 0;
 
+    var scoreColor = (this.liked()) ? 'white' : 'black';
+    var scoreBackground = (this.liked()) ? RED : 'white';
+
     return {
       slider: {
         opacity: sliderOpacity,
@@ -90,14 +92,16 @@ var AnimationMixin = {
       },
 
       right: {
-        'background-color': this.state.scoreBackground
+        'background-color': scoreBackground,
+        'transform': 'translateX(' + leftX + 'px)',
+        '-webkit-transform': 'translateX(' + leftX + 'px)',
+        opacity: scoreOpacity
       },
 
       score: {
-        opacity: scoreOpacity,
         'transform': 'scale(' + scoreScale + ')',
         '-webkit-transform': 'scale(' + scoreScale + ')',
-        color: this.state.scoreColor
+        color: scoreColor
       }
     }
   },
@@ -171,7 +175,7 @@ var AnimationMixin = {
     this.tweenState('sliderX', {
       easing: EASINGS.easeOutQuad,
       duration: SLIDER_PEEK_DURATION,
-      endValue: this.getDOMNode().offsetWidth
+      endValue: this.fullWidth
     });
 
   },
@@ -225,10 +229,10 @@ var AnimationMixin = {
 
         // Hide slider
         self.setState({scoreBackground: RED});
-        self.tweenState('sliderOpacity', {
+        self.tweenState('sliderX', {
           easing: EASINGS.easeOutQuad,
           duration: duration,
-          endValue: 0
+          endValue: self.fullWidth * 2
         });
 
 
@@ -238,7 +242,10 @@ var AnimationMixin = {
             sliderX: 0,
             sliderOpacity: 1,
             sliderIconOpacity: 1
-          })
+          });
+
+          // Back to basics
+          self.setState({animation_step: 'start'})
         }, duration);
 
       }, duration);

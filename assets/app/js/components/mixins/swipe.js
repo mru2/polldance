@@ -14,10 +14,9 @@ var SwipeMixin = {
 
 		// Needed data
 		this.length = domNode.offsetWidth;
-	  this.direction = 0;
-  	this.swiping = false;
-  	this.swipeDistance = null;
-	  
+
+		this.resetSwipe();
+
 		var callback = _.bind(this.onUpdate, this);
 
 		// Listen to swipe events
@@ -31,6 +30,12 @@ var SwipeMixin = {
 		delete this.mc;
 	},
 
+	resetSwipe: function(){
+		this.swiping = false;
+		this.direction = 0;
+		this.swipeDistance = null;
+	},
+
 	onUpdate: function(event){
 	  if (event.type === 'touchstart') {
 	    this.swiping = true;
@@ -41,10 +46,12 @@ var SwipeMixin = {
 	    this.swiping = false;
 
 	    if (this.swipeDistance > (this.length / 4)) {
+	    	this.resetSwipe();
 	      this.handleSwipeSuccess();
 	      return;
 	    }
 	    else {
+	    	this.resetSwipe();
 	      this.handleSwipeFailure();
 	    }
 	  }
