@@ -57,10 +57,14 @@ var SwipeMixin = {
 	  }
 
 	  if (event.type === 'pan') {
-	    this.swipeDistance = event.deltaX;
+	  	delta = event.deltaX;
+	  	if ( delta < -SLIDER_PEEK_X ) { delta = -SLIDER_PEEK_X; } 
+	  	if ( delta > this.length-SLIDER_PEEK_X ) { delta = this.length-SLIDER_PEEK_X; } 
+
+	    this.swipeDistance = delta;
 	    this.direction = event.direction;
 
-	    this.handleSwipeProgress(event.deltaX);
+	    this.handleSwipeProgress(delta);
 	  }		
 	}
 }
