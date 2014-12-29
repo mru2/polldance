@@ -5,10 +5,6 @@
   <title>poll.dance</title>
   <meta name="description" content="">
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-
-  <!-- Webfonts - experimienting -->
-  <!-- <link href="/assets/vendor/fontawesome/css/font-awesome.min.css" rel="stylesheet"> -->
-
   <link rel="stylesheet" href="/assets/app/css/main.css" />
 </head>
 <body>
@@ -18,7 +14,13 @@
   </div>
 
   <script type="text/javascript">
-    window.PD = {};
+    window.PD = {
+      CONFIG: {
+        REFRESH_DELAY: 30000, // 30 seconds at most between each refresh
+        API_URL: '/api/v1/playlists/<%= params[:code] %>',
+        NOTIFICATIONS_URL: '/stream/<%= params[:code] %>'
+      }
+    };
     window.BOOTSTRAP = <%= @bootstrap.to_json %>;
   </script>
   <script type="text/javascript" src="/assets/app/js/main.js"></script>

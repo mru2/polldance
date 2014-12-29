@@ -5,8 +5,13 @@
   overflow: hidden;
 }
 
+.pane, .view{
+  overflow: hidden;
+}
+
 section{
   // Animate slide
   transition: transform 300ms ease;
   -webkit-transition: -webkit-transform 300ms ease;
+  width: 100%;
 }

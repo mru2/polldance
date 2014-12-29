@@ -57,3 +57,9 @@
   font-size: $inner-height * 0.6;
   color: inherit;
 }  
+
+// Faster animation
+.item-spinner{
+  -webkit-animation: fa-spin 500ms infinite linear;
+  animation: fa-spin 500ms infinite linear;
+}

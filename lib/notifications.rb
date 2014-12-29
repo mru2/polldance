@@ -35,7 +35,7 @@ class Notifications
     def for_code(code)
       @rooms[code].map do |stream|
         {
-          user_id: @streams[stream][:user_id],
+          user_id: @streams[stream][:user],
           stream: stream
         }
       end

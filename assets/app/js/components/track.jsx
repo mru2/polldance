@@ -6,14 +6,14 @@ var Track = React.createClass({
   mixins: [PositionMixin, SwipeMixin, AnimationMixin], 
 
   sliderIcon: 'item-icon fa fa-heart',
-  sliderIconLoading: 'item-icon fa fa-circle-o-notch fa-spin',
+  sliderIconLoading: 'item-icon fa fa-circle-o-notch item-spinner',
 
   componentDidMount: function() {
     console.log('[TRACK] Creating DOM node', this.props);
   },
 
   getInitialState: function() {
-    return {};
+    return {upvoting: false};
   },
 
   liked: function() {
@@ -22,16 +22,13 @@ var Track = React.createClass({
 
   upvote: function(){
     console.log('[TRACK] on upvote');
-
     var self = this;
-
-    PD.Actions.upvoteTrack(this.props.id);
-    PD.API.upvoteTrack(this.props.id)
-          .then(function(response){
-            PD.Actions.upvoteTrackSuccess(response);
-            self.animateTo('done'); // Should already be set as liked
-          })
-          .then(PD.Actions.apiFailure);
+    var liked = this.liked();
+    this.setState({upvoting: true});
+    PD.Actions.combined.upvote(this.props.id, function(){
+      self.setState({upvoting: false});
+      self.animateTo('done', {upvoted: !liked});
+    });
   },
 
   handleSwipeStart: function(){
@@ -58,7 +55,7 @@ var Track = React.createClass({
   render: function() {
 
     var styles = this.getStyles();
-    var sliderIcon = (this.props.upvoting) ? this.sliderIconLoading : this.sliderIcon;
+    var sliderIcon = (this.state.upvoting) ? this.sliderIconLoading : this.sliderIcon;
 
     return (
 

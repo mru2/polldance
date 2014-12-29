@@ -6,13 +6,13 @@
 (function(Actions, global) {
 
   global.API = {
-    setup: function(playlist_code){
-      this.playlist_code = playlist_code;
+    setup: function(base_url){
+      this.base_url = base_url;
     },
 
     search: function(query){
       return reqwest({
-        url: '/api/v1/playlists/' + this.playlist_code + '/search',
+        url: this.base_url + '/search',
         type: 'json',
         method: 'get',
         data: {query: query}
@@ -21,7 +21,7 @@
 
     addTrack: function(attributes){
       return reqwest({
-        url: '/api/v1/playlists/' + this.playlist_code + '/tracks',
+        url: this.base_url + '/tracks',
         type: 'json',
         method: 'post',
         data: {track: attributes}
@@ -30,9 +30,17 @@
 
     upvoteTrack: function(trackId){
       return reqwest({
-        url: '/api/v1/playlists/' + this.playlist_code + '/tracks/' + trackId,
+        url: this.base_url + '/tracks/' + trackId,
         type: 'json',
         method: 'post'
+      });
+    },
+
+    refresh: function(){
+      return reqwest({
+        url: this.base_url,
+        type: 'json',
+        method: 'get'
       });
     }
   };

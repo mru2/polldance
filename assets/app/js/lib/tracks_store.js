@@ -1,5 +1,5 @@
 
-(function(Reflux, Actions, global) {
+(function(Reflux, Actions, Notifications, global) {
 	'use strict';
 
 	// Global array with all our tracks
@@ -10,7 +10,7 @@
     _tracks = _.map(newPlaylist.tracks, function(track, index){
       track.position = index;
       return track;
-    });    
+    });
   };
 
   // Fetch a track
@@ -42,10 +42,8 @@
 
 		onUpvoteTrack: function(trackId) {
       console.log('[TRACKS STORE] Upvoting track', trackId);
-      var track = getTrack(trackId);
-      track.upvoting = true;
-      this.trigger();
       // optimistic : ( (mean * count) + val ) / score + 1
+      // this.trigger();
 		},
 
     onUpvoteTrackSuccess: function(playlist) {
@@ -56,4 +54,4 @@
 
 	});
 
-})(window.Reflux, window.PD.Actions, window.PD);
+})(window.Reflux, window.PD.Actions, window.PD.Notifications, window.PD);

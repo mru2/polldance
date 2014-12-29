@@ -72,13 +72,14 @@ class Track
   # Get the valid votes
   # Hash of user_id => vote age
   def votes
+    now = Time.now.to_f
     @votes ||= Hash[
       REDIS.zrangebyscore(
         votes_key, 
         (Time.now.to_f - VOTE_TTL), 
         '+inf', 
         with_scores: true
-      ).map!{|user_id, time| [user_id, Time.now.to_f - time]}
+      ).map!{|user_id, time| [user_id, now - time]}
     ]
   end
 

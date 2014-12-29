@@ -49,3 +49,12 @@ KISS
  * full-sync : same body on every fetch
  * refresh by default, sync afterward
  * code IS id IS url
+
+
+FLUX
+  Actions = action chains (manually defined under PD.Actions)
+  => call API
+  => call Notifications
+  => trigger sub-actions (listened to by stores)
+
+Stores == solely app state

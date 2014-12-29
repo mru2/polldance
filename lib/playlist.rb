@@ -75,6 +75,7 @@ class Playlist
   # Get a snapshot of the playlist, for a given user
   # JSON serializable, this is the usual response from the API
   def snapshot(user_id = nil)
+    puts "Fetching snapshot for user #{user_id}"
     {
       code: code,
       tracks: tracks.map{|t| t.snapshot(user_id)}.compact

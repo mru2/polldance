@@ -1,3 +1,4 @@
+
 # Deeezer API client
 class Deezer
   include HTTParty

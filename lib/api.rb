@@ -65,7 +65,6 @@ class Api < Sinatra::Base
 
 
   # Vote for a track
-  # Track not found
   post '/playlists/:code/tracks/:track_id' do
     playlist = Playlist.get(params[:code])
     error(404) unless playlist
@@ -74,6 +73,8 @@ class Api < Sinatra::Base
     error(404) unless track
 
     track.vote(@user_id)
+
+    sleep(1)
 
     Notifications.publish(playlist.code)
 

@@ -35,14 +35,12 @@ var AnimationMixin = {
     // Should depend on 'liked' prop
     return {
       animation_step: 'start',
-      scoreColor: 'black',
       sliderX: 0,
       leftX: 0,
       scoreOpacity: 1,
       sliderOpacity: 1,
       sliderIconOpacity: 1,
-      scoreScale: 1,
-      scoreBackground: 'transparent'
+      scoreScale: 1
     };
   },
 
@@ -53,8 +51,11 @@ var AnimationMixin = {
   animateTo: function(target, data){
 
     var source = this.state.animation_step;
+    var transition = source + '_to_' + target;
 
-    this[source + '_to_' + target](data);
+    if (this[transition]) {
+      this[transition](data || {});
+    }
 
     this.setState({
       animation_step: target
@@ -63,6 +64,10 @@ var AnimationMixin = {
   },
 
   // Handle custom styles depending on current state
+  getRightColor: function(like_age){
+    return tinycolor(RED).desaturate(like_age * 100).toString();
+  },
+
   getStyles: function(sliderDelta){
     var sliderX           = this.getTweeningValue('sliderX');
     var scoreOpacity      = this.getTweeningValue('scoreOpacity');
@@ -73,7 +78,7 @@ var AnimationMixin = {
     var leftX = (this.state.animation_step == 'hover' || this.state.animation_step == 'sending' || this.state.animation_step == 'start') ? sliderX : 0;
 
     var scoreColor = (this.liked()) ? 'white' : 'black';
-    var scoreBackground = (this.liked()) ? RED : 'white';
+    var scoreBackground = (this.liked()) ? this.getRightColor(this.props.like_age) : 'white';
 
     return {
       slider: {
@@ -187,9 +192,7 @@ var AnimationMixin = {
 
     console.log('animating to done');
 
-    // var upvoted = !!data.upvoted;
-    var upvoted = true;
-
+    var upvoted = !!data.upvoted;
     var self = this;
     var duration = SCORE_UPDATE_DURATION;
 
@@ -204,14 +207,14 @@ var AnimationMixin = {
     if (upvoted) {
 
       // Hide upvote icon
-      self.tweenState('sliderIconOpacity', {
-        easing: EASINGS.easeOutQuad,
-        duration: duration,
-        endValue: 0
-      });
+      // self.tweenState('sliderIconOpacity', {
+      //   easing: EASINGS.easeOutQuad,
+      //   duration: duration,
+      //   endValue: 0
+      // });
 
       // Enter score
-      self.setState({scoreScale: 3, scoreColor: 'white'});
+      self.setState({scoreScale: 3, sliderIconOpacity: 0});
 
       self.tweenState('scoreOpacity', {
         easing: EASINGS.easeInQuad,
@@ -254,10 +257,34 @@ var AnimationMixin = {
 
     else {
 
-      alert('should not be here');
+      // Replace icon with score
+      self.setState({sliderIconOpacity: 0, scoreOpacity: 1});
 
+      self.tweenState('scoreOpacity', {
+        easing: EASINGS.easeInQuad,
+        duration: duration,
+        endValue: 1
+      });
+
+      // Hide slider
+      self.tweenState('sliderX', {
+        easing: EASINGS.easeOutQuad,
+        duration: duration,
+        endValue: self.fullWidth * 2
+      });
+
+      setTimeout(function(){
+        // Reset slider
+        self.setState({
+          sliderX: 0,
+          sliderOpacity: 1,
+          sliderIconOpacity: 1
+        });
+
+        // Back to basics
+        self.setState({animation_step: 'start'})
+      }, duration);
     }
-
   }
 
 };
