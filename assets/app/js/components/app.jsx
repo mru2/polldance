@@ -37,10 +37,10 @@ var App = React.createClass({
       <div className="main-container view">
 
         <header className="item header">
-          <div className="item-right">
+          <div className="item-right" onTouchStart={this.toggleSearch}>
             <div className="item-content">
               <span className="item-icon">
-                <i className={iconClassName} onTouchStart={this.toggleSearch} />
+                <i className={iconClassName} />
               </span>
             </div>
           </div>

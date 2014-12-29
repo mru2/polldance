@@ -30,7 +30,7 @@
             self.resetTimeout();
           })
           .fail(function(err){
-            alert('An error happened', err);
+            global.location.reload();
           });
     },
 
