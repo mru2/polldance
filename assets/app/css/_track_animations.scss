@@ -4,68 +4,179 @@ $swiped_duration: 200ms;
 $easeInCubic: cubic-bezier(0.55, 0.055, 0.675, 0.19);
 $easeOutCubic: cubic-bezier(0.190, 1.000, 0.220, 1.000);
 
-// Start
-.step-start-anim{
-  .item-slider, .item-left{
-    transition: transform $swiping_duration $easeInCubic;  
-  }
+.ready_to_hover{
+  &>.item-slider, &>.item-left, &>.item-right{
+    transition: transform 200ms $easeOutCubic;
+    transform: translateX(72px);
 
-  .track-score{
-    transition: opacity 200ms $easeInCubic;    
-  }
-}
-
-.step-start-done{
-  z-index: 1;
-  box-shadow: 0px 2px 5px 0 rgba(0,0,0,0);
-
-  .item-slider, .item-left{
-    transform: translateX(0);
-  }
-
-  .track-score{
-    opacity: 1;    
+    -webkit-transition: -webkit-transform 200ms $easeOutCubic;
+    -webkit-transform: translateX(72px);
   }
 }
 
+.hover_to_ready{
+  &>.item-slider, &>.item-left, &>.item-right{
+    transition: transform 200ms $easeOutCubic;
+    transform: translateX(0px);
 
-// Swiping
-.step-swiping-anim{
-  z-index: 10;
-  transition: box-shadow $swiping_duration linear;
-
-  .item-slider, .item-left{
-    transition: transform $swiping_duration $easeOutCubic;  
-  }
-
-  .track-score{
-    transition: opacity 200ms $easeOutCubic;
-  }
+    -webkit-transition: -webkit-transform 200ms $easeOutCubic;
+    -webkit-transform: translateX(0px);
+  }  
 }
 
-.step-swiping-done{
-  box-shadow: 0px 2px 5px 0 rgba(0,0,0,0.26);
-  z-index: 10;
-
-  .item-slider, .item-left{
-    transform: translateX($height);
-  }
-
-  .track-score{
-    opacity: 0;
-  }
-}
-
-// Swiped
-.step-swiped-anim{
-  .item-slider, .item-left{
-    transition: transform $swiped_duration $easeOutCubic;  
-  }
-}
-
-.step-swiped-done{
-  .item-slider, .item-left{
+.hover_to_sending{
+  &>.item-slider, &>.item-left, &>.item-right{
+    transition: transform 200ms $easeOutCubic;
     transform: translateX(100%);
+
+    -webkit-transition: -webkit-transform 200ms $easeOutCubic;
+    -webkit-transform: translateX(100%);
+  }    
+}
+
+.sending{
+  &>.item-slider, &>.item-left, &>.item-right{
+    transform: translateX(100%);
+    -webkit-transform: translateX(100%);
+  }
+  // For upvote animation
+  .track-score{
+    transform: scale(3);
+    -webkit-transform: scale(3);
+    opacity: 0;    
   }
 }
+
+.sending_to_done{
+  &>.item-slider{
+    transition: transform 1000ms $easeOutCubic;
+    transform: translateX(200%);
+
+    -webkit-transition: -webkit-transform 1000ms $easeOutCubic;
+    -webkit-transform: translateX(200%);
+  }
+  .track-score{
+    transform: scale(1);
+    -webkit-transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.done{
+  &>.item-slider{
+    transform: translateX(200%);
+    -webkit-transform: translateX(200%);
+  }   
+}
+
+.sending_to_upvoted{
+  &>.item-slider{
+    transform: translateX(100%);
+    -webkit-transform: translateX(100%);
+  }   
+  .track-score{
+    transform: scale(1);
+    -webkit-transform: scale(1);
+    opacity: 1;
+
+    transition: all 500ms $easeOutCubic;
+    -webkit-transition: all 500ms $easeOutCubic;    
+  }
+}
+
+.upvoted{
+  &>.item-slider{
+    transform: translateX(100%);
+    -webkit-transform: translateX(100%);
+  }   
+  .track-score{
+    transform: scale(1);
+    -webkit-transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.upvoted_to_done{
+  &>.item-slider{
+    transition: transform 1000ms $easeOutCubic;
+    transform: translateX(200%);
+
+    -webkit-transition: -webkit-transform 1000ms $easeOutCubic;
+    -webkit-transform: translateX(200%);
+  } 
+}
+
+.done{
+  &>.item-slider{
+    transform: translateX(200%);
+    -webkit-transform: translateX(200%);
+  }     
+}
+
+// Start
+
+
+// .step-start-anim{
+//   .item-slider, .item-left{
+//     transition: transform $swiping_duration $easeInCubic;  
+//   }
+
+//   .track-score{
+//     transition: opacity 200ms $easeInCubic;    
+//   }
+// }
+
+// .step-start-done{
+//   z-index: 1;
+//   box-shadow: 0px 2px 5px 0 rgba(0,0,0,0);
+
+//   .item-slider, .item-left{
+//     transform: translateX(0);
+//   }
+
+//   .track-score{
+//     opacity: 1;    
+//   }
+// }
+
+
+// // Swiping
+// .step-swiping-anim{
+//   z-index: 10;
+//   transition: box-shadow $swiping_duration linear;
+
+//   .item-slider, .item-left{
+//     transition: transform $swiping_duration $easeOutCubic;  
+//   }
+
+//   .track-score{
+//     transition: opacity 200ms $easeOutCubic;
+//   }
+// }
+
+// .step-swiping-done{
+//   box-shadow: 0px 2px 5px 0 rgba(0,0,0,0.26);
+//   z-index: 10;
+
+//   .item-slider, .item-left{
+//     transform: translateX($height);
+//   }
+
+//   .track-score{
+//     opacity: 0;
+//   }
+// }
+
+// // Swiped
+// .step-swiped-anim{
+//   .item-slider, .item-left{
+//     transition: transform $swiped_duration $easeOutCubic;  
+//   }
+// }
+
+// .step-swiped-done{
+//   .item-slider, .item-left{
+//     transform: translateX(100%);
+//   }
+// }
 

@@ -15,22 +15,5 @@ class Deezer
       }
     end
 
-    # [
-    #   {
-    #     id: '123',
-    #     artist: 'Avicii',
-    #     title: 'Hey Brother'
-    #   },
-    #   {
-    #     id: '456',
-    #     artist: 'Vague Wave',
-    #     title: 'First Rule'
-    #   },
-    #   {
-    #     id: '789',
-    #     artist: 'The Glitch Mob',
-    #     title: 'We Can Make The World Stop'
-    #   }
-    # ]
   end
 end

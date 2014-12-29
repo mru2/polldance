@@ -74,8 +74,6 @@ class Api < Sinatra::Base
 
     track.vote(@user_id)
 
-    sleep(1)
-
     Notifications.publish(playlist.code)
 
     json playlist.snapshot(@user_id)

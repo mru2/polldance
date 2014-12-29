@@ -29,6 +29,20 @@
             cb();
           })
           .fail( Actions.apiFailure );
+    },
+
+    add: function(attrs, cb) {
+      API.addTrack({
+            id: attrs.id,
+            title: attrs.title,
+            artist: attrs.artist
+          })
+          .then( function(response){
+            Actions.addTrackSuccess(response);
+            Notifications.resetTimeout();
+            cb();
+          })
+          .fail( Actions.apiFailure );
     }
   };
 

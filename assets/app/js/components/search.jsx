@@ -5,7 +5,8 @@ var Search = React.createClass({
 
   getInitialState: function() {
     return {
-      results: []
+      results: [],
+      searching: false
     };
   },
 
@@ -15,12 +16,19 @@ var Search = React.createClass({
 
   onSearchChange: function() {
     console.log('[SEARCH] Search changed');
-    this.state.results = PD.SearchStore.getResults();
+    this.setState({
+      results: PD.SearchStore.getResults(),
+      searching: false
+    });
   },
 
   handleSubmit: function(){
     console.log('[SEARCH] on submit');
     query = this.refs.searchInput.getDOMNode().value.trim();
+
+    this.setState({
+      searching: true
+    });
 
     PD.Actions.search(query)
     PD.API.search(query)
@@ -53,6 +61,8 @@ var Search = React.createClass({
 
     });
 
+    var searchIcon = (this.state.searching) ? 'fa fa-circle-o-notch item-spinner' : 'fa fa-search';
+
     return (
       <section style={sectionStyle} className="scroll-content has-header">
         <div className="item subheader">
@@ -65,7 +75,7 @@ var Search = React.createClass({
             <div className="item-right search-submit" onClick={this.handleSubmit}>
               <div className="item-content">
                 <span className="item-icon">
-                  <i className="fa fa-search"></i>
+                  <i className={searchIcon}></i>
                 </span>
               </div>
             </div>

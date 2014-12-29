@@ -7,6 +7,8 @@
 
 // TODO : destroy it when the element is unmounted
 
+SLIDER_PEEK_X = 72;
+
 var SwipeMixin = {
 
 	componentDidMount: function(){
@@ -45,7 +47,7 @@ var SwipeMixin = {
 	  if (event.type === 'touchend') {
 	    this.swiping = false;
 
-	    if (this.swipeDistance > (this.length / 4)) {
+	    if (this.swipeDistance > (this.length / 3)) {
 	    	this.resetSwipe();
 	      this.handleSwipeSuccess();
 	      return;

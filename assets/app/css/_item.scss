@@ -62,4 +62,7 @@
 .item-spinner{
   -webkit-animation: fa-spin 500ms infinite linear;
   animation: fa-spin 500ms infinite linear;
+  width: $inner-height;
+  height: $inner-height;
+  line-height: $inner-height;
 }

@@ -29,7 +29,7 @@ var App = React.createClass({
       iconClassName = 'fa fa-bars';
     }
     else {
-      iconClassName = 'fa fa-search';      
+      iconClassName = 'fa fa-plus';      
     }
 
     return (

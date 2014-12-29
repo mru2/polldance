@@ -1,6 +1,8 @@
 /** @jsx React.DOM */
 // The react track component
 
+RED = '#e74c3c';
+
 var Track = React.createClass({
 
   mixins: [PositionMixin, SwipeMixin, AnimationMixin], 
@@ -13,7 +15,10 @@ var Track = React.createClass({
   },
 
   getInitialState: function() {
-    return {upvoting: false};
+    return {
+      upvoting: false,
+      sliderDelta: 0
+    };
   },
 
   liked: function() {
@@ -27,18 +32,28 @@ var Track = React.createClass({
     this.setState({upvoting: true});
     PD.Actions.combined.upvote(this.props.id, function(){
       self.setState({upvoting: false});
-      self.animateTo('done', {upvoted: !liked});
+      if (liked) {
+        self.animateTo('done');
+      }
+      else {
+        self.animateTo('upvoted');
+      }
     });
   },
 
   handleSwipeStart: function(){
     console.log('[TRACK] swipe start');
+    this.setState({
+      'sliderDelta': 0
+    });
     this.animateTo('hover');
   },
 
   handleSwipeProgress: function(length){
     // console.log('[TRACK] swipe progress : ', length);
-    this.animateTo('hover', {delta: length});
+    this.setState({
+      'sliderDelta': length
+    });
   },
 
   handleSwipeSuccess: function(length){
@@ -49,7 +64,48 @@ var Track = React.createClass({
 
   handleSwipeFailure: function(length){
     console.log('[TRACK] swipe failure');
-    this.animateTo('start');
+    this.animateTo('ready');
+  },
+
+  getRightColor: function(like_age){
+    return tinycolor(RED).desaturate(like_age * 100).toString();
+  },
+
+  getStyles: function() {
+
+    // var sliderX           = this.getTweeningValue('sliderX');
+    // var scoreOpacity      = this.getTweeningValue('scoreOpacity');
+    // var sliderOpacity     = this.getTweeningValue('sliderOpacity');
+    // var sliderIconOpacity = this.getTweeningValue('sliderIconOpacity');
+    // var scoreScale        = this.getTweeningValue('scoreScale');
+
+    // var leftX = (this.state.animation_step == 'hover' || this.state.animation_step == 'sending' || this.state.animation_step == 'start') ? sliderX : 0;
+
+    var scoreColor = (this.liked()) ? 'white' : 'black';
+    var scoreBackground = (this.liked()) ? this.getRightColor(this.props.like_age) : 'white';
+
+    var styles = {
+      slider: {},
+      left: {},
+      right: {
+        'background-color': scoreBackground,
+        color: scoreColor
+      }
+    }
+
+    if (this.state.animation_step === 'hover') {
+      var transform = 'translateX(' + (this.state.sliderDelta + 72) + 'px)';
+      styles.left.transform = transform;
+      styles.slider.transform = transform;
+      styles.right.transform = transform;
+
+      styles.left['-webkit-transform'] = transform;
+      styles.slider['-webkit-transform'] = transform;
+      styles.right['-webkit-transform'] = transform;
+    }
+
+    return styles;
+
   },
 
   render: function() {
@@ -57,13 +113,15 @@ var Track = React.createClass({
     var styles = this.getStyles();
     var sliderIcon = (this.state.upvoting) ? this.sliderIconLoading : this.sliderIcon;
 
+    var className = 'item track ' + this.state.animation_step;
+
     return (
 
-      <div className="item track" style={this.getItemPositionStyle()}>
+      <div className={className} style={this.getItemPositionStyle()}>
           <div className="item-right" style={styles.right}>
             <div className="item-content">
               <a className="item-icon">
-                <span className="track-score" style={styles.score} onClick={this.upvote}>{this.props.score}</span>
+                <span className="track-score" onClick={this.upvote}>{this.props.score}</span>
               </a>
             </div>
           </div>
@@ -71,7 +129,7 @@ var Track = React.createClass({
           <div className='item-slider' style={styles.slider}>
             <div className="item-right">
               <div className="item-content">
-                <i className={sliderIcon} style={styles.sliderIcon} ></i>
+                <i className={sliderIcon}></i>
               </div>
             </div>
           </div>
