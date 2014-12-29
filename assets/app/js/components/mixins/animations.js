@@ -26,7 +26,7 @@ var AnimationMixin = {
   // -> bar
   launchAnimation: function(target, duration, cb) {
 
-    delete this.animationTimeout;
+    clearTimeout(this.animationTimeout);
 
     var source = this.state.resting_step;
 

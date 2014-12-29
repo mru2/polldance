@@ -36,7 +36,7 @@
 
     resetTimeout: function(){
       console.log('[NOTIFICATIONS] Resetting timeout');
-      delete _timeout;
+      clearTimeout(_timeout);
       _timeout = setTimeout(this.refresh.bind(this), _timeoutDelay);
     }
   };
