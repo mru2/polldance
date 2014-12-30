@@ -32,7 +32,7 @@ var Search = React.createClass({
     });
 
     input.blur();
-    
+
     // this.refs.searchInput.blur();
     PD.Actions.search(query)
     PD.API.search(query)
@@ -73,7 +73,7 @@ var Search = React.createClass({
           <form onSubmit={this.handleSubmit}>
             <div className="item-left">
               <div className="item-content">
-                <input className="search-input" type="text" placeholder="Type the artist or song name" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" ref="searchInput" />
+                <input className="search-input" type="text" placeholder="Type the artist or song name" autoComplete="off" autoCorrect="off" autoCapitalize="off" ref="searchInput" />
               </div>
             </div>
             <div className="item-right search-submit" onClick={this.handleSubmit}>
