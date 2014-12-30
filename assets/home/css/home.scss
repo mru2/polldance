@@ -1,6 +1,91 @@
-$color: #333;
+@import "../../shared/css/typo";
+@import "../../shared/css/colors";
+
+@import "../../vendor/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";
+
+html {
+  font-size: 62.5%
+}
 
 body{
-  color: $color;
-  font-family: sans-serif;
+  background: $lighttheme;
+  color: $white;
+  @include basefont();
 }
+
+.clearfix{
+  clear: both;
+}
+
+.headline{
+  background: $darktheme;
+
+  text-align: center;
+  padding: 4rem 0;
+
+  .title{
+    @include headfont();
+    font-size: 4rem;
+    line-height: 4rem;
+    margin-bottom: 1em;
+  }
+
+  .tagline{
+    @include headfont();
+    color: $midwhite;
+    font-size: 2.6rem;
+    line-height: 4rem;
+  }
+}
+
+.input-row{
+  background: white;
+  color: $black;
+  margin-bottom: 4rem;
+
+  .form-control{
+    border: none;
+    box-shadow: none;
+    -webkit-appearance:none;
+    border-radius: 0;
+    padding: 1.6rem;
+    font-size: 1.6rem;
+    line-height: 2.6rem;
+    height: 7.8rem;
+  }
+
+  .input{
+    float: left;
+    width: 70%;
+  }
+
+  .submit{
+    text-align: center;
+    float: right;
+    width: 30%;
+    text-transform: uppercase;
+    @include headfont();
+    background: $accent;
+    color: $white;
+  }
+}
+
+.launch{
+  h2{
+    @include headfont();
+    font-size: 1.6rem;
+    line-height: 2.6rem;
+    margin-bottom: 1em;
+  }  
+
+  a{
+    color: $white;
+    text-decoration: none;
+    border-bottom: 2px solid $white;
+
+    &:hover{
+      border-color: $accent;
+    }
+  }
+}
+

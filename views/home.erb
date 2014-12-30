@@ -1,17 +1,38 @@
 <html>
 <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>poll.dance | a live democrating playlist for parties</title>
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
   <link rel="stylesheet" href="/assets/home/css/home.css" />
 </head>
 
 <body>
 
-  <h1>poll.dance</h1>
-  <h2>Homepage (WIP)</h2>
+  <header class="headline">
+    <h1 class="title">poll.dance</h1>
+    <p class="tagline">A live democratic playlist for parties</p>
+  </header>
 
-  <form action="/launch" method="POST">
-    <input type="text" name="code" placeholder="Your party's code"/>
-    <input type="submit"/>
+  <form action="/join" method="POST" class="input-row">
+    <input type="text" name="code" placeholder="Enter the party's code" class="input form-control"/>
+    <input type="submit" value="Join" class="submit form-control"/>
+    <span class="clearfix"></span>
   </form>
+
+  <section class="launch">
+    <div class="container-fluid">
+      <h2>Use poll.dance at your party?</h2>
+      <p>The online launch form is coming back soon. In the meantime shoot me an email at <a href="mailto:contact@poll.dance">contact@poll.dance</a></p>
+    </div>
+  </section>
 
 </body>
 </html>

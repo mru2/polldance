@@ -15,6 +15,20 @@ class Server < Sinatra::Base
   end
 
 
+  # Join a playlist
+  post '/join' do
+    if !params[:code]
+      redirect to('/?no_code_given')
+    end
+
+    if playlist = Playlist.get(params[:code])
+      redirect to("/#{playlist.code}")
+    else
+      redirect to('/?wrong_code')
+    end
+  end
+
+
   # Playlist creation
   post '/launch' do
     if !params[:code]
