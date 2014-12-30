@@ -1,2 +1,42 @@
-<h1>poll.dance player</h1>
-<h2>WIP</h2>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="/assets/player/css/main.css" />
+  </head>
+
+  <body>
+    <div id="dz-root"></div>
+
+    <header class="header">
+      <h1>http://poll.dance/<%= @playlist.code %></h1>
+    </header>
+
+    <section class="login">
+      <a id="deezer-login">Login with deezer</a>
+    </section>
+
+    <section class="playing" style="display:none;">
+      <div class="current">
+        <h3>Currently playing</h3>
+
+        <span class="title">Nothing yet</span>
+        <span class="artist">Let's start this</span>
+      </div>
+
+      <div class="controls">
+        <a id="play"><i class="fa fa-play"></i></a>
+        <a id="pause" style="display:none;"><i class="fa fa-pause"></i></a>
+        <a id="next"><i class="fa fa-step-forward"></i></a>
+      </div>
+    </section>
+
+    <script type="text/javascript">
+      window.PD = {
+        CODE: <%= @playlist.code.to_json %>
+      };
+    </script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://cdn-files.deezer.com/js/min/dz.js"></script>
+    <script type="text/javascript" src="/assets/player/js/main.js"></script>
+  </body>
+</html>

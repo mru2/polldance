@@ -1,0 +1,108 @@
+@import "../../shared/css/typo";
+@import "../../shared/css/colors";
+
+@import "../../vendor/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";
+
+// Font awesome variables
+$fa-font-path: "/assets/vendor/fontawesome/fonts";
+@import "../../vendor/fontawesome/scss/font-awesome.scss";
+
+
+body{
+  @include basefont();
+  background: $lighttheme;
+  color: $white;
+}
+
+.header{
+
+  h1{
+    @include headfont();
+    color: $white;
+    text-align: center;
+    font-size: 72px;
+    line-height: 72px;
+    margin-top: 172px;
+    margin-bottom: 172px;
+  }
+
+}
+
+.login{
+  text-align: center;
+
+  #deezer-login{
+    @include headfont();
+    color: $white;
+    background: $accent;
+    font-size: 48px;
+    line-height: 72px;
+    display: inline-block;
+    text-transform: uppercase;
+    padding: 18px 36px;
+    cursor: pointer;
+    text-decoration: none;
+    border: 6px solid $white;
+    background: transparent;
+    transition: all 150ms ease;
+
+    &:hover{
+      border-color: $accent;
+      background: $accent;
+    }
+  }
+}
+
+.playing{
+
+  .current{
+    background: $white;
+    color: $black;
+    padding-top: 12px;
+    padding-left: 36px;
+    padding-right: 36px;
+    padding-bottom: 36px;
+  }
+
+  h3{
+    @include headfont();
+    text-transform: uppercase;
+    font-size: 16px;
+    line-height: 16px;
+    color: $midgray;
+    margin-bottom: 24px;
+  }
+
+  .title{
+    display: block;
+    font-size: 36px;
+    line-height: 36px;
+    color: $accent;
+    margin-bottom: 24px;
+    margin-left: 36px;
+  }
+
+  .artist{
+    font-size: 24px;
+    line-height: 24px;
+    color: $black;
+    margin-left: 36px;
+  }
+
+}
+
+.controls{
+  background: $darktheme;
+  padding: 36px;
+  margin: 0 -15px;
+  text-align: center;
+  vertical-align: middle;
+
+  a{
+    color: $white;
+    font-size: 48px;
+    line-height: 48px;
+    margin: 0px 36px;
+    cursor: pointer;    
+  }
+}
