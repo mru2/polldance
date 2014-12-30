@@ -62,8 +62,8 @@ class Playlist
   def pop_top_track!
     top_track = tracks.first
 
-    return nil if !top_track
-   
+    return nil if !top_track || (top_track.score == 0)
+
     # Remove it
     REDIS.srem tracks_key, top_track.id
     top_track.clear_scores!

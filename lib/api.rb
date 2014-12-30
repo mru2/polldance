@@ -92,7 +92,7 @@ class Api < Sinatra::Base
       json track.snapshot(nil, true)
     else
       error(404)
-    end      
+    end
 
     # TODO ? : recommendations if no track
 
