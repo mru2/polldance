@@ -100,7 +100,7 @@ class Track
   # Snapshot for a given user. Also includes whether it is liked
   # Nil if zero-score and not liked
   # JSON serializable
-  def snapshot(user_id = nil)    
+  def snapshot(user_id = nil, force = false)
     attrs = {
       id: id,
       artist: artist,
@@ -114,7 +114,7 @@ class Track
       attrs[:like_age] = like_age && (like_age / VOTE_TTL)
     end
 
-    return nil if (score == 0) && !attrs[:like_age]
+    return nil if (score == 0) && !attrs[:like_age] && !force
 
     attrs
   end

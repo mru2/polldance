@@ -87,11 +87,15 @@ class Api < Sinatra::Base
 
     track = playlist.pop_top_track!
 
-    # TODO : recommendations if no track
+    if track
+      Notifications.publish(playlist.code)
+      json track.snapshot(nil, true)
+    else
+      error(404)
+    end      
 
-    Notifications.publish(playlist.code)
+    # TODO ? : recommendations if no track
 
-    json track ? track.snapshot : nil
   end
 
 end

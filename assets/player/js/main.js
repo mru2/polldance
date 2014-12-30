@@ -1,9 +1,13 @@
 // Global : DZ
 NEXT_TRACK_URL = '/api/v1/playlists/' + window.PD.CODE + '/tracks'
+STREAM_URL = '/stream/' + window.PD.CODE
 
 // The actual deezer player wrapper
 var Player = {
   loadTrack: function(trackId){
+    if (!trackId){
+      DZ.player.pause();
+    }
     DZ.player.playTracks([trackId]);
   },
 
@@ -24,6 +28,7 @@ var Controller = {
   roomId: null,
   isLoggedIn: false,
   currentTrack: null,
+  playlistEmpty: true,
 
   initialized: function(){ return this.isInitialized; },
   roomSet: function(){ return this.roomId !== null; },
@@ -50,16 +55,26 @@ var Controller = {
             self.loadNextTrack();
           });
 
-          // DZ.Event.subscribe('current_track', function(){
-          //   self.loadNextTrack();
-          // });
-
-
           // Update the view
           self.isInitialized = true;
-          View.showLanding();
         }
       }
+    });
+
+    var source = new EventSource(STREAM_URL);
+    var self = this;
+    source.addEventListener('message', function(message){
+      var payload = JSON.parse(message.data);
+      console.log('[SOURCE] Received update with payload', payload);
+      if (self.playlistEmpty) {
+
+        // Autoplay the top track
+        if (payload.tracks.length > 0) {
+          self.loadNextTrack();
+        }
+
+      };
+
     });
   },
 
@@ -113,12 +128,19 @@ var Controller = {
       success: function(track){
         Player.loadTrack(track.id);
         self.currentTrack = track;
+        self.playlistEmpty = false;
         View.updateTrack(track);
         View.setPlaying();
       },
       error: function(res){
         if (res.status === 404) { 
-          alert('The playlist is empty :(  Follow the instructions on the right to add some tracks and try again.')
+          // Toggle autoplay
+          self.playlistEmpty = true;
+          Player.loadTrack(null);
+          self.currentTrack = null;
+
+          View.setNoTrack();
+          View.setPaused();
         }
       }
     });
@@ -174,6 +196,11 @@ var View = {
   updateTrack: function(track){
     this.currentTrackCont.find('.artist').html(track.artist);
     this.currentTrackCont.find('.title').html(track.title);
+  },
+
+  setNoTrack: function(){
+    this.currentTrackCont.find('.title').html('The playlist is empty');    
+    this.currentTrackCont.find('.artist').html('Please add some tracks');
   },
 
   setPlaying: function(){

@@ -63,7 +63,7 @@ class Playlist
     top_track = tracks.first
 
     return nil if !top_track
-    
+   
     # Remove it
     REDIS.srem tracks_key, top_track.id
     top_track.clear_scores!
