@@ -5,7 +5,8 @@ var Playlist = React.createClass({
 
   getInitialState: function() {
     return {
-      tracks: []
+      tracks: [],
+      currently_playing: {}
     };
   },
 
@@ -15,7 +16,10 @@ var Playlist = React.createClass({
 
   onTracksChange: function(){
     console.log('[PLAYLIST] Tracks changed');
-    this.setState({tracks: PD.TracksStore.getTracks()});
+    this.setState({
+      tracks: PD.TracksStore.getTracks(),
+      currently_playing: PD.TracksStore.getCurrentlyPlaying()
+    });
   },
 
 
@@ -54,8 +58,8 @@ var Playlist = React.createClass({
         <div className="item subheader track">
           <div className="item-left">
               <div className="item-content">
-                  <div className="item-line">Happy</div>
-                  <div className="item-line">C2C</div>
+                  <div className="item-line">{this.state.currently_playing.title}</div>
+                  <div className="item-line">{this.state.currently_playing.artist}</div>
               </div>
           </div>
           <div className="item-right">

@@ -62,7 +62,13 @@ class Playlist
   def pop_top_track!
     top_track = tracks.first
 
-    return nil if !top_track || (top_track.score == 0)
+    if !top_track || (top_track.score == 0)
+      set_currently_playing nil, nil
+      return nil
+    end
+
+    # Store the current track
+    set_currently_playing top_track.title, top_track.artist
 
     # Remove it
     REDIS.srem tracks_key, top_track.id
@@ -72,13 +78,26 @@ class Playlist
   end
 
 
+  # Get the currently playing track
+  def currently_playing
+    attrs = REDIS.hgetall(currently_playing_key)
+    attrs.empty? ? {} : attrs
+  end
+
+  def set_currently_playing(title, artist)
+    REDIS.hset currently_playing_key, 'title', title
+    REDIS.hset currently_playing_key, 'artist', artist
+  end
+
+
   # Get a snapshot of the playlist, for a given user
   # JSON serializable, this is the usual response from the API
   def snapshot(user_id = nil)
     puts "Fetching snapshot for user #{user_id}"
     {
       code: code,
-      tracks: tracks.map{|t| t.snapshot(user_id)}.compact
+      tracks: tracks.map{|t| t.snapshot(user_id)}.compact,
+      currently_playing: currently_playing
     }
   end
 
@@ -104,6 +123,11 @@ class Playlist
   # Track ids in the playlist : SET
   def tracks_key
     "p:#{code}:t"
+  end
+
+  # Currently playing track (artist, title)
+  def currently_playing_key
+    "p:#{code}:c"
   end
 
 end

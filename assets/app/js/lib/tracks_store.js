@@ -5,12 +5,17 @@
 	// Global array with all our tracks
 	var _tracks = [];
 
+  // Currently playing
+  var _currentlyPlaying = {};
+
   // Update the playlist
   var updatePlaylist = function(newPlaylist) {
     _tracks = _.map(newPlaylist.tracks, function(track, index){
       track.position = index;
       return track;
     });
+
+    _currentlyPlaying = newPlaylist.currently_playing;
   };
 
   // Fetch a track
@@ -23,6 +28,18 @@
     // Getters
     getTracks: function(){
       return _tracks;
+    },
+
+    getCurrentlyPlaying: function(){
+      if (!_currentlyPlaying.title && !_currentlyPlaying.artist) {
+        return {
+          title: 'No track playing',
+          artist: 'Please add one'
+        }
+      }
+      else {
+        return _currentlyPlaying;
+      }
     },
 
     // Listeners
