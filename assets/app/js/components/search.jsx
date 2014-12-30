@@ -24,12 +24,16 @@ var Search = React.createClass({
 
   handleSubmit: function(){
     console.log('[SEARCH] on submit');
-    query = this.refs.searchInput.getDOMNode().value.trim();
+    var input =  this.refs.searchInput.getDOMNode();
+    query = input.value.trim();
 
     this.setState({
       searching: true
     });
 
+    input.blur();
+    
+    // this.refs.searchInput.blur();
     PD.Actions.search(query)
     PD.API.search(query)
           .then(PD.Actions.searchSuccess)
@@ -69,7 +73,7 @@ var Search = React.createClass({
           <form onSubmit={this.handleSubmit}>
             <div className="item-left">
               <div className="item-content">
-                <input className="search-input" type="text" placeholder="Artist, track, ..." ref="searchInput" />
+                <input className="search-input" type="text" placeholder="Type the artist or song name" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" ref="searchInput" />
               </div>
             </div>
             <div className="item-right search-submit" onClick={this.handleSubmit}>
