@@ -14,11 +14,8 @@ class Assets < Sprockets::Environment
     # Handle .jsx files
     register_engine '.jsx', JSX::Template
 
-    # TODO (possible?) lazy compression
-    if APP_ENV == :production
-      js_compressor  = :uglify
-      css_compressor = :scss
-    end
+    self.js_compressor  = :uglify
+    self.css_compressor = :scss
 
   end
 

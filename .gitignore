@@ -1,2 +1,4 @@
 assets/vendor
 .env
+public/assets
+.sass-cache

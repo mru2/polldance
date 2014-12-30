@@ -2,11 +2,23 @@ require 'sinatra/base'
 
 require 'current_user'
 require 'playlist'
+require 'assets'
 
 class Server < Sinatra::Base
 
   include CurrentUser
   set :views, "#{APP_ROOT}/views"
+  set :assets, Assets.new
+
+  helpers do
+    def asset_path(source)
+      if APP_ENV == :production
+        "/assets/#{settings.assets.find_asset(source).digest_path}"
+      else
+        "/assets/#{source}"
+      end
+    end
+  end
 
 
   # Homepage

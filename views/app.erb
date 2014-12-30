@@ -5,7 +5,7 @@
   <title>poll.dance</title>
   <meta name="description" content="">
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-  <link rel="stylesheet" href="/assets/app/css/main.css" />
+  <link rel="stylesheet" href="<%= asset_path 'app/css/main.css'%>" />
 </head>
 <body>
   
@@ -23,7 +23,7 @@
     };
     window.BOOTSTRAP = <%= @bootstrap.to_json %>;
   </script>
-  <script type="text/javascript" src="/assets/app/js/main.js"></script>
+  <script type="text/javascript" src="<%= asset_path 'app/js/main.js'%>"></script>
 
 </body>
 </html>

@@ -14,6 +14,10 @@ gem 'thin'
 # ASSETS
 gem 'sass'
 gem 'sprockets'
+gem 'rake'
+gem 'coffee-script'
+gem 'sprockets-sass'
+gem 'uglifier'
 
 # JSX compilation
 gem 'execjs'

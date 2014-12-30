@@ -2,7 +2,6 @@
   "name": "poll.dance",
   "private": true,
   "dependencies": {
-    "bootstrap-sass-official": "~3.1.1",
     "react": "~0.11.2",
     "tinycolor": "~1.1.0",
     "lodash": "~2.4.1",
@@ -12,6 +11,7 @@
     "reqwest": "~1.1.5",
     "ionic": "~0.9.27",
     "react-tween-state": "~0.0.4",
-    "fontawesome": "~4.2.0"
+    "fontawesome": "~4.2.0",
+    "bootstrap": "~3.3.1"
   }
 }
