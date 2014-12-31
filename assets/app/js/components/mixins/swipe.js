@@ -22,7 +22,10 @@ var SwipeMixin = {
 		var callback = _.bind(this.onUpdate, this);
 
 		// Listen to swipe events
-		this.mc = new Hammer(domNode);
+		this.mc = new Hammer(domNode, {
+		  dragLockToAxis: true,
+		  dragBlockHorizontal: true			
+		});
 		this.mc.on('pan', callback);
 	  domNode.addEventListener('touchstart', callback);
     domNode.addEventListener('touchend', callback);
