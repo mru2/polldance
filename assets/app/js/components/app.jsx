@@ -54,7 +54,7 @@ var App = React.createClass({
 
         <Playlist displayed={!this.state.searchDisplayed} />
 
-        <Search displayed={this.state.searchDisplayed} />
+        <Search displayed={this.state.searchDisplayed} suggestions={PD.CONFIG.SUGGESTIONS}/>
 
       </div>
 

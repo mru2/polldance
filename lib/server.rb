@@ -61,6 +61,7 @@ class Server < Sinatra::Base
     end
 
     @bootstrap = playlist.snapshot(@user_id)
+    @suggestions = playlist.suggestions
 
     erb :app
   end

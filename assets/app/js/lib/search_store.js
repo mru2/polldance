@@ -2,7 +2,7 @@
   'use strict';
 
   // Search results
-  var _results = [];
+  var _results = global.CONFIG.SUGGESTIONS;
 
   // // Search query
   // var _query = '';

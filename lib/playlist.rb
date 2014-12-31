@@ -1,4 +1,5 @@
 require 'track'
+require 'recommender'
 
 class Playlist
 
@@ -19,7 +20,7 @@ class Playlist
     code = process_code(code)
     REDIS.set playlist_key(code), Time.now
     REDIS.expire playlist_key(code), TTL
-
+    
     new(code)
   end
 
@@ -70,6 +71,9 @@ class Playlist
     # Store the current track
     set_currently_playing top_track.title, top_track.artist
 
+    # Update suggestions
+    update_suggestions!(top_track)
+
     # Remove it
     REDIS.srem tracks_key, top_track.id
     top_track.clear_scores!
@@ -102,6 +106,32 @@ class Playlist
   end
 
 
+  def suggestions
+    json = REDIS.get suggestions_key
+    (json.nil? || json == '') ? [] : JSON.parse(json)
+  end
+
+
+  def update_suggestions!(track)
+    id, artist, title = track.id, track.artist, track.title
+    Thread.new do
+      begin
+        r = Recommender.create "id-#{Time.now.to_i}"
+        r.add(title, artist)
+        suggestions = r.suggestions
+
+        if !suggestions.empty?
+          REDIS.set suggestions_key, suggestions.to_json
+        end
+      rescue => e
+        # Meh, what could happen...
+      ensure
+        Thread.exit
+      end
+    end
+  end
+
+
   private
 
   # ===================
@@ -128,6 +158,11 @@ class Playlist
   # Currently playing track (artist, title)
   def currently_playing_key
     "p:#{code}:c"
+  end
+
+  # Suggestions (as json)
+  def suggestions_key
+    "p:#{code}:s"
   end
 
 end
