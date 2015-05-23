@@ -41,17 +41,6 @@ class Server < Sinatra::Base
   end
 
 
-  # Playlist creation
-  post '/launch' do
-    if !params[:code]
-      redirect to('/?no_code_given')
-    end
-
-    playlist = Playlist.create(params[:code])
-    redirect to("/#{playlist.code}/player")
-  end
-
-
   # App for a given playlist
   get '/:code' do
     playlist = Playlist.get(params[:code])
@@ -76,7 +65,7 @@ class Server < Sinatra::Base
     end
 
     erb :player
-  end 
+  end
 
 
 end

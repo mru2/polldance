@@ -5,30 +5,37 @@ class Playlist
 
   TTL = 172800 # 2 days
 
+  # Fetch all playlists (TODO : index seaparately via geolocation)
+  def self.all
+    REDIS.keys('pd:p:*').map{|code| new(code.gsub /^pd:p:/, '')}
+  end
+
+
   # Get the playlist for a given code
   # Returns nil if no playlist
   def self.get(code)
-    return nil unless code
-    code = process_code(code)
     return nil unless REDIS.exists playlist_key(code)
     new(code)
   end
-  
+
 
   # Create the playlist / delay its expiration
-  def self.create(code)
-    code = process_code(code)
-    REDIS.set playlist_key(code), Time.now
+  def self.create(name)
+    code = process_code(name)
+    return nil if code == ''
+
+    REDIS.hset playlist_key(code), 'name', name
     REDIS.expire playlist_key(code), TTL
-    
+
     new(code)
   end
 
 
   # Initialization (do not call directly)
-  attr_reader :code
+  attr_reader :code, :name
   def initialize(code)
     @code = code
+    @name = REDIS.hget Playlist.playlist_key(code), :name
   end
 
 
@@ -100,6 +107,7 @@ class Playlist
     puts "Fetching snapshot for user #{user_id}"
     {
       code: code,
+      name: name,
       tracks: tracks.map{|t| t.snapshot(user_id)}.compact,
       currently_playing: currently_playing
     }
@@ -147,22 +155,22 @@ class Playlist
 
   # Enabled playlist codes : separate keys with expiration
   def self.playlist_key(code)
-    "p:#{code}"
+    "pd:p:#{code}"
   end
 
   # Track ids in the playlist : SET
   def tracks_key
-    "p:#{code}:t"
+    "pd:t:#{code}"
   end
 
   # Currently playing track (artist, title)
   def currently_playing_key
-    "p:#{code}:c"
+    "pd:c:#{code}"
   end
 
   # Suggestions (as json)
   def suggestions_key
-    "p:#{code}:s"
+    "pd:s:#{code}"
   end
 
 end

@@ -27,6 +27,26 @@ class Api < Sinatra::Base
   end
 
 
+  # Get all available playlists
+  get '/playlists' do
+    json Playlist.all.map { |playlist|
+      {
+        code: playlist.code,
+        name: playlist.name
+      }
+    }
+  end
+
+
+  # Launch a new playlist
+  post '/playlists' do
+    playlist = Playlist.create(params[:name])
+    error(422) unless playlist
+
+    json playlist.snapshot(@user_id)
+  end
+
+
   # Get a playlist's snapshot
   get '/playlists/:code' do
     playlist = Playlist.get(params[:code])
