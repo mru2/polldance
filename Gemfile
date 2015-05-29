@@ -10,6 +10,7 @@ gem 'redis'
 
 # SERVER
 gem 'thin'
+gem 'foreman'
 
 # ASSETS
 gem 'sass'

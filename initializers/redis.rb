@@ -1,4 +1,6 @@
-redis_db = case APP_ENV
+REDIS_HOST = ENV['REDISTOGO_URL'] || 'redis://127.0.0.1:6379'
+
+db = case APP_ENV
 when :production
   1
 when :test
@@ -7,4 +9,4 @@ else
   0
 end
 
-REDIS = Redis.new(db: redis_db)
+REDIS = Redis.new(url: "#{REDIS_HOST}/#{db}")
