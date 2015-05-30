@@ -30,6 +30,9 @@ gem 'httparty'
 # PROD
 gem 'dotenv', require: false
 
+# MONITORING
+gem 'newrelic_rpm'
+
 group :development, :test do
   gem 'pry'
 end

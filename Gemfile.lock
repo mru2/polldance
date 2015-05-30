@@ -25,6 +25,7 @@ GEM
     method_source (0.8.2)
     multi_json (1.10.1)
     multi_xml (0.5.5)
+    newrelic_rpm (3.9.5.251)
     pry (0.9.12.6)
       coderay (~> 1.0)
       method_source (~> 0.8)
@@ -86,6 +87,7 @@ DEPENDENCIES
   execjs
   foreman
   httparty
+  newrelic_rpm
   pry
   rack-contrib
   rake
