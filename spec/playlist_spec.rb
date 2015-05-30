@@ -8,7 +8,7 @@ describe Playlist do
   end
 
   let(:playlist){
-    Playlist.create('Test Party')
+    Playlist.create('Test Party', [0,0])
   }
 
   let(:track_id){ 'track_id' }
@@ -107,7 +107,7 @@ describe Playlist do
       at_time(2000) do
 
         playlist.snapshot(user_id).should == {
-          code: 'testparty',
+          code: 'test-party',
           name: 'Test Party',
           currently_playing: {},
           tracks: [
@@ -130,7 +130,7 @@ describe Playlist do
       at_time(5000) do
 
         playlist.snapshot(user_id).should == {
-          code: 'testparty',
+          code: 'test-party',
           name: 'Test Party',
           currently_playing: {},
           tracks: [
@@ -148,6 +148,24 @@ describe Playlist do
 
     end
 
+  end
+
+
+  describe 'geolocation' do
+    before do
+      # Build playlists in various points in space
+      (1..10).to_a.repeated_combination(2).each do |lat, lng|
+        Playlist.create "Playlist #{lat}-#{lng}", [lat, lng]
+      end
+    end
+
+    it 'should return nearby playlists, with distance, and sorted by proximity' do
+      Playlist.nearest([1.6, 2.8]).map{|res| res[:playlist].code}.should == [
+        'playlist-2-3',
+        'playlist-1-3',
+        'playlist-2-2'
+      ]
+    end
   end
 
 end

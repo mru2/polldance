@@ -5,9 +5,25 @@ class Playlist
 
   TTL = 172800 # 2 days
 
-  # Fetch all playlists (TODO : index seaparately via geolocation)
-  def self.all
-    REDIS.keys('pd:p:*').map{|code| new(code.gsub /^pd:p:/, '')}
+  # Fetch nearest playlists playlists
+  def self.nearest(geo, opts={})
+    limit = opts.fetch(:limit, 3)
+
+    # Fetch all codes
+    all_codes = REDIS.keys('pd:p:*').map{|code| code.gsub /^pd:p:/, ''}
+
+    # Order by distance
+    playlists_with_distance = all_codes.map do |code|
+      playlist = new(code)
+      distance = Math.sqrt( (geo[0] - playlist.geo[0])**2 + (geo[1] - playlist.geo[1])**2 )
+      {
+        playlist: playlist,
+        distance: distance
+      }
+    end
+
+    # Sort and limit the results
+    playlists_with_distance.sort_by{|res|res[:distance]}.first(limit)
   end
 
 
@@ -20,11 +36,11 @@ class Playlist
 
 
   # Create the playlist / delay its expiration
-  def self.create(name)
+  def self.create(name, geo)
     code = process_code(name)
     return nil if code == ''
 
-    REDIS.hset playlist_key(code), 'name', name
+    REDIS.hmset playlist_key(code), 'name', name, 'lat', geo[0], 'lng', geo[1]
     REDIS.expire playlist_key(code), TTL
 
     new(code)
@@ -32,10 +48,13 @@ class Playlist
 
 
   # Initialization (do not call directly)
-  attr_reader :code, :name
+  attr_reader :code, :name, :geo
   def initialize(code)
     @code = code
-    @name = REDIS.hget Playlist.playlist_key(code), :name
+    attrs = REDIS.hgetall Playlist.playlist_key(code)
+
+    @name = attrs['name']
+    @geo = [attrs['lat'], attrs['lng']].map(&:to_i)
   end
 
 
@@ -146,7 +165,8 @@ class Playlist
   # Code transformation
   # ===================
   def self.process_code(code)
-    code.downcase.gsub(/[^a-z0-9]+/, '')
+    res = code.downcase.gsub(/[^a-z0-9]+/, '-')
+    res == '-' ? nil : res
   end
 
   # ==========
