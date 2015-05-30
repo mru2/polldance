@@ -1,0 +1,70 @@
+$black: rgba(0,0,0,.87);
+$darkgray: rgba(0,0,0,.54);
+$midgray: rgba(0,0,0,.26);
+$lightgray: rgba(0,0,0,.12);
+
+$white: #FFFFFF;
+$strongwhite: rgba(255,255,255,.7);
+$midwhite: rgba(255,255,255,.3);
+$lightwhite: rgba(255,255,255,.12);
+
+
+$darktheme: #2C3E50;
+$lighttheme: #34495E;
+$accent: #E74C3C;
+
+
+@mixin headfont{
+  font-family: "Montserrat";
+  font-weight: 700;
+};
+
+@mixin basefont{
+  font-family: "Roboto";
+  font-weight: 400;
+};
+
+
+html {
+  font-size: 62.5%
+}
+
+body{
+  background: $darktheme;
+  padding: 0;
+  margin: 0;
+  color: $white;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  word-wrap: break-word;
+  @include basefont();
+}
+
+.content{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height: 100%;
+}
+
+.headline{
+  text-align: center;
+  padding: 4rem 0;
+
+  .title{
+    @include headfont();
+    font-size: 6rem;
+    line-height: 1.6em;
+
+    .highlight{
+      color: $accent;
+    }
+  }
+
+  .tagline{
+    @include headfont();
+    color: $strongwhite;
+    font-size: 2.6rem;
+    line-height: 4rem;
+  }
+}
