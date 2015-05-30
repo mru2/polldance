@@ -1,7 +1,9 @@
-@import "../../shared/css/typo";
-@import "../../shared/css/colors";
+//= require ../shared/typo
+//= require ../shared/colors
+//= require "../../vendor/bootstrap/dist/css/bootstrap.css"
 
-@import "../../vendor/bootstrap/dist/css/bootstrap.css";
+@import "../shared/typo.scss";
+@import "../shared/colors.scss";
 
 html {
   font-size: 62.5%

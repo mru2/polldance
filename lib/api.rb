@@ -29,10 +29,11 @@ class Api < Sinatra::Base
 
   # Get nearest available playlists
   get '/playlists' do
-    json Playlist.nearest([params[:lat], params[:lng]]).map { |playlist|
+    json Playlist.nearest([params[:lat], params[:lng]]).map { |res|
       {
-        code: playlist.code,
-        name: playlist.name
+        code: res[:playlist].code,
+        name: res[:playlist].name,
+        distance: res[:distance]
       }
     }
   end
