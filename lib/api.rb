@@ -16,6 +16,12 @@ class Api < Sinatra::Base
 
   configure do
     set :root, APP_ROOT
+
+    # Logging
+    enable :logging
+    file = File.new("#{settings.root}/log/#{settings.environment}.log", 'a+')
+    file.sync = true
+    use Rack::CommonLogger, file
   end
 
 
