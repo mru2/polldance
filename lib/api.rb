@@ -27,9 +27,9 @@ class Api < Sinatra::Base
   end
 
 
-  # Get all available playlists
+  # Get nearest available playlists
   get '/playlists' do
-    json Playlist.all.map { |playlist|
+    json Playlist.nearest([params[:lat], params[:lng]]).map { |playlist|
       {
         code: playlist.code,
         name: playlist.name
@@ -40,7 +40,7 @@ class Api < Sinatra::Base
 
   # Launch a new playlist
   post '/playlists' do
-    playlist = Playlist.create(params[:name])
+    playlist = Playlist.create(params[:name], [params[:lat], params[:lng]])
     error(422) unless playlist
 
     json playlist.snapshot(@user_id)

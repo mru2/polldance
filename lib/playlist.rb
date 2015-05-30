@@ -54,7 +54,7 @@ class Playlist
     attrs = REDIS.hgetall Playlist.playlist_key(code)
 
     @name = attrs['name']
-    @geo = [attrs['lat'], attrs['lng']].map(&:to_i)
+    @geo = [attrs['lat'], attrs['lng']].map(&:to_f)
   end
 
 

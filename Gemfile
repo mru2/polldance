@@ -33,9 +33,8 @@ gem 'dotenv', require: false
 # MONITORING
 gem 'newrelic_rpm'
 
-group :development, :test do
-  gem 'pry'
-end
+# CONSOLE
+gem 'pry'
 
 group :test do
   gem 'rspec'
