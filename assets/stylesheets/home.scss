@@ -45,6 +45,23 @@ body{
   justify-content:center;
   align-items:center;
   height: 100%;
+  text-align: center;
+  background-color: rgba($darktheme, 0.8);
+}
+
+video#bgvid {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -100;
+  -webkit-transform: translateX(-50%) translateY(-50%) scale(1.3);
+  transform: translateX(-50%) translateY(-50%) scale(1.3);
+  background: $darktheme;
+  background-size: cover;
 }
 
 .headline{
@@ -55,6 +72,7 @@ body{
     @include headfont();
     font-size: 6rem;
     line-height: 1.6em;
+    animation: fadein 200ms infinite;
 
     .highlight{
       color: $accent;
@@ -66,5 +84,30 @@ body{
     color: $strongwhite;
     font-size: 2.6rem;
     line-height: 4rem;
+    animation: easein 300ms ease 200ms;
+  }
+}
+
+.btn{
+  margin-top: 3em;
+  font-size: 2.4em;
+  padding: 0.5em 1.2em;
+  display: inline-block;
+  text-align: center;
+  text-transform: uppercase;
+  @include headfont();
+  background: $accent;
+  color: $white;
+}
+
+
+@-webkit-keyframes fadeIn {
+  0% {
+    transform: scale(0);
+    opacity: 0.0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
   }
 }
