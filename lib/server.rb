@@ -26,6 +26,10 @@ class Server < Sinatra::Base
     erb :home
   end
 
+  get '/launch' do
+    erb :launch
+  end
+
 
   # Join a playlist
   post '/join' do
@@ -76,7 +80,7 @@ class Server < Sinatra::Base
     end
 
     erb :player
-  end 
+  end
 
 
 end
